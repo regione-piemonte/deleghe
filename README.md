@@ -3,9 +3,9 @@
 Sono consentite deleghe per maggiorenni e per minori, purchè il delegante sia un genitore avente la patria potestà e sia autorizzato dall'altro genitore ad operare per conto dei figli.
 # Getting Started
 L'applicativo **Deleghe** è composto dai seguenti componenti:
-- [Deleghe Frontend](https://github.com/deleghe/deleghe-frontend) (Front-End Web)
-- [Deleghe Orchestratore](https://github.com/deleghe/deleghe-orchestratore) (API Manager)
-- [Deleghe Servizi](https://github.com/deleghe/deleghe-servizi) (Servizi REST)
+- [Deleghe Frontend](https://github.com/regione-piemonte/deleghe-frontend) (Front-End Web)
+- [Deleghe Orchestratore](#) (API Manager)
+- [Deleghe Servizi](#) (Servizi REST)
 # Prerequisites
 I prerequisiti per l'installazione dell'applicativo sono i seguenti:
 ## Software
