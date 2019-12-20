@@ -24,8 +24,8 @@ Nei file README.md dei singoli prodotti verranno elencate le istruzioni per la l
 Per la gestione del codice sorgente viene utilizzata la metodologia [Semantic Versioning](https://semver.org/).
 # Authors
 Gli autori dell'applicativo DELEGHE sono:
-- [](mailto:giovanni.pennone@csi.it)
-- [](mailto:alessandro.napoli@csi.it)
+- [Giovanni Pennone](mailto:giovanni.pennone@csi.it)
+- [Alessandro Napoli](mailto:alessandro.napoli@csi.it)
 # Copyrights
 (C) Copyright 2019 Regione Piemonte
 # License
