@@ -1,0 +1,5 @@
+commons-lang3-3.2.1.jar
+csi-java-swagger-codegen-1.0.0.jar
+jackson-datatype-joda-2.10.1.jar
+log4j-1.2.14.jar
+swagger-codegen-cli.jar

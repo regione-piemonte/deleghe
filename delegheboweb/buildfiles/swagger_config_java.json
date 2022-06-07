@@ -1,0 +1,17 @@
+{
+"java8": false,
+"useBeanValidation": true,
+"hideGenerationTimestamp": true,
+"apiPackage": "it.csi.deleghe.delegheboweb.business.delegheboweb",
+"modelPackage":  "it.csi.deleghe.delegheboweb.dto.delegheboweb",
+"invokerPackage": "it.csi.deleghe.delegheboweb.business.delegheboweb",
+"implFolder": "implfolder",
+"sourceFolder": "src/java",
+"useSwaggerFeature": false,
+"generateJbossDeploymentDescriptor": false,
+"generateImplArtifacts": false,
+"generateSwaggerMetadata": false,
+"attributeSerializationStrategy": "explicit-as-modeled", 
+"accessHttpHeaders": true,
+"modelPropertyNaming": "original"
+}

@@ -1,0 +1,949 @@
+swagger: '2.0'
+info:
+  title: DELEGHEBO_API
+  description: API del back office di Deleghe.
+  version: 1.0.0
+host: 'xyz:443'
+schemes:
+  - https
+basePath: /deleghebo/api/v1
+produces:
+  - application/json
+paths:
+ '/comuni':
+    get:
+      description: >
+        Fornisce l'elenco delle descrizoni dei comuni e i relativi codici istat.
+        Il filtro viene gestito per i campi definiti nell'oggetto comune_filter,
+        se  valorizzata la data_validita vengono filtrati tutti i dati aventi
+        data_inizio_validita <= data_validita e data_fine_validita >=
+        data_validita || data_fine_validita == null
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Shib-Identita-CodiceFiscale
+          type: string
+          required: true
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: query
+          name: offset
+          type: integer
+        - in: query
+          name: limit
+          type: integer
+        - in: query
+          name: filter
+          type: string
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          headers:
+            X-Totale-Elementi:
+              type: integer
+              description: totale elementi trovati
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/comune'
+        '400':
+          description: bad request
+          schema:
+            $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+          schema:
+            $ref: '#/definitions/errore'
+        '404':
+          description: Risorsa non trovata
+          schema:
+            $ref: '#/definitions/errore'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errore'
+ '/cittadini/infoUtente':
+    get:
+      description: >
+        Restituisce le informazioni legate all'utente che si è loggato
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            $ref: '#/definitions/utente'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/deleganti':
+    get:
+      description: >
+        Restituisce una lista di cittadini deleganti, a partire da un cittadino delegato.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/delega_cittadino'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/delegati':
+    get:
+      description: >
+        Restituisce una lista di cittadini delegati, a partire da un cittadino delegante.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/delega_cittadino'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/selezionaCittadino':
+    get:
+      description: >
+        Inserisce in sessione le informazioni provenienti dal servizio AURA
+        del cittadino selezionato.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore' 
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/ricerca':
+    get:
+      description: >
+        Fornisce l'elenco dei cittadini afferenti al cf passato in path. 
+        Il codice fiscale dell'header deve essere verificato con il cf 
+        passato nel path param se sono diversi ritorna errore 401.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/cittadino'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/deleghe':
+    get:
+      description: >
+        Fornisce l'elenco delle deleghe afferenti al cf passato in path
+        param a compiere operazioni sui servizi sanitari. Il codice fiscale
+        dell'header deve essere verificato con il cf passato nel path param se
+        sono diversi ritorna errore 401.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/delega'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+    post:
+      description: >
+        Inserimento di una delega
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: body
+          name: delega
+          schema:
+            $ref: '#/definitions/delega'
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            $ref: '#/definitions/delega'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+ '/cittadini/{cf}/dichiarazioni':
+    get:
+      description: >
+        Fornisce l'elenco delle dichiarazioni afferenti ai parametri parametri passati in query string.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: query
+          name: filter
+          type: string
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/dichiarazione'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+    put:
+      description: >
+        Aggiornamento di una dichiarazione. Metodo utilizzato per completare una dichiarazione ed inserire le deleghe associate. Metodo utilizzato per revocare una dichiarazione
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: X-Request-ID
+          type: string
+          required: true
+        - in: header
+          name: X-Codice-Servizio
+          type: string
+          required: true
+        - in: path
+          name: cf
+          type: string
+          required: true
+        - in: body
+          name: dichiarazione
+          schema:
+            $ref: '#/definitions/dichiarazione'
+          description: >
+            Codice servizio viene passato dal verde e serve allo strato giallo
+            per fare audit
+      responses:
+        '200':
+          description: operazione eseguita con successo
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/dichiarazione'
+        '204':
+          description: Empty queue
+        '400':
+          description: Bad Request
+        '404':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/errore'
+        '401':
+          description: Utente non autorizzato a compiere l'operazione
+        '421':
+          description: codice fiscale non valido (controllo su lunghezza)
+        '500':
+          description: Internal Server Error
+definitions:
+  cittadino:
+    type: object
+    properties:
+      codice_fiscale:
+        type: string
+        description: codice fiscale
+        example: xyz
+      nome:
+        type: string
+        description: nome
+      cognome:
+        type: string
+        description: cognome
+      dataNascita:
+        type: string
+        format: date
+        description: data di nascita
+      comuneNascita:
+        type: string
+        description: comune di nascita
+      sesso:
+        type: string
+        description: sesso questo campo non è obbligatorio
+      id_aura:
+        type: integer
+        description: idAura questo campo non è obbligatorio
+      deleghe:
+        type: array
+        items:
+          $ref: '#/definitions/delega'
+  cittadino_filter:
+    type: object
+    properties:
+      codice_fiscale:
+        $ref: '#/definitions/string_crit'
+      cognome:
+        $ref: '#/definitions/string_crit'
+      nome:
+        $ref: '#/definitions/string_crit'
+      data_nascita:
+        $ref: '#/definitions/date_crit'
+      comune_nascita:
+        $ref: '#/definitions/string_crit'
+      sesso:
+        $ref: '#/definitions/string_crit'
+  delega_cittadino:
+    type: object
+    properties:
+      codice_fiscale:
+        type: string
+        description: codice fiscale
+        example: xyz
+      nome:
+        type: string
+        description: nome
+      cognome:
+        type: string
+        description: cognome
+      dataNascita:
+        type: string
+        format: date
+        description: data di nascita
+      comuneNascita:
+        type: string
+        description: comune di nascita
+      sesso:
+        type: string
+        description: sesso questo campo non è obbligatorio
+        $ref: '#/definitions/sesso'
+      id_aura:
+        type: integer
+        description: idAura questo campo non è obbligatorio
+      uuid:
+        type: string
+      delegheServizi:
+        type: array
+        description: uuid campo legato alla delega
+        items:
+          $ref: '#/definitions/delega_servizio'
+  delega:
+    type: object
+    properties:
+      uuid:
+        type: string
+      delegante:
+        $ref: '#/definitions/cittadino'
+      delegato:
+        $ref: '#/definitions/cittadino'
+      stato:
+        type: string
+        description: >-
+          gestisce cancellazione o attivazione valori possibili attivi,
+          eliminato
+      servizi:
+        type: array
+        items:
+          $ref: '#/definitions/delega_servizio'
+  delega_servizio:
+    type: object
+    properties:
+      uuid:
+        type: string
+      codice_servizio:
+        type: string
+      data_inizio_delega:
+        type: string
+        format: date
+      data_fine_delega:
+        type: string
+        format: date
+      stato_delega:
+        type: string
+        description: >-
+          i possibili valori dello stato delega modificabili sono  Attiva,  Non
+          attiva per proroga, Revocata, Rifiutata. Altri valori restituibili
+          dalla business ma non modificabili sono In Scadenza E Scaduta.
+  delega_filter:
+    type: object
+    properties:
+      uuid:
+        $ref: '#/definitions/string_crit'
+      codice_fiscale_delegante:
+        $ref: '#/definitions/string_crit'
+      codice_fiscale_delegato:
+        $ref: '#/definitions/string_crit'
+      stato_delega:
+        $ref: '#/definitions/string_crit'
+      codice_servizio:
+        $ref: '#/definitions/string_crit'
+  dichiarazione:
+    type: object
+    properties:
+      uuid:
+        type: string
+      tipo:
+        $ref: '#/definitions/dichiarazione_tipo'
+      stato:
+        $ref: '#/definitions/dichiarazione_stato'
+      modo:
+        $ref: '#/definitions/dichiarazione_modo'
+      cittadino:
+        $ref: '#/definitions/cittadino'
+      data_inserimento:
+        type: string
+        format: date
+      dettagli:
+        type: array
+        items:
+          $ref: '#/definitions/dichiarazione_dettaglio'
+  dichiarazione_dettaglio:
+    type: object
+    properties:
+      uuid:
+        type: string
+      stato:
+        $ref: '#/definitions/dichiarazione_dettaglio_stato'
+      genitore_tutore_curatore:
+        $ref: '#/definitions/cittadino'
+      ruolo_genitore_tutore_curatore:
+        $ref: '#/definitions/dichiarazione_ruolo'
+      figlio_tutelato_curato:
+        $ref: '#/definitions/cittadino'
+      ruolo_figlio_tutelato_curato:
+        $ref: '#/definitions/dichiarazione_ruolo'
+      documento:
+        $ref: '#/definitions/documento'
+      note_revoca_blocco:
+        type: string
+  dichiarazione_dettaglio_stato:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  dichiarazione_tipo:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  dichiarazione_stato:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  dichiarazione_modo:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  dichiarazione_ruolo:
+    description: 'genitore, figlio, tutore, tutelato, curatore, curato.'
+    allOf:
+      - $ref: '#/definitions/codifica'
+  dichiarazione_filter:
+    type: object
+    properties:
+      uuid:
+        $ref: '#/definitions/string_crit'
+      codice_fiscale_cit1:
+        $ref: '#/definitions/string_crit'
+      ruolo_cit1:
+        $ref: '#/definitions/dichiarazione_ruolo'
+      codice_fiscale_cit2:
+        $ref: '#/definitions/string_crit'
+      ruolo_cit2:
+        $ref: '#/definitions/dichiarazione_ruolo'
+      tipo:
+        type: array
+        items:
+          $ref: '#/definitions/dichiarazione_tipo'
+      modo:
+        type: array
+        items:
+          $ref: '#/definitions/dichiarazione_modo'
+      stato:
+        type: array
+        items:
+          $ref: '#/definitions/dichiarazione_stato'
+  documento:
+    type: object
+    properties:
+      id:
+        type: integer
+      desc:
+        type: string
+      tipo:
+        $ref: '#/definitions/documento_tipo'
+      file:
+        $ref: '#/definitions/documento_file'
+  utente:
+    type: object
+    properties:
+      nome:
+        type: string
+      cognome:
+        type: string
+      codice_fiscale:
+        type: string
+      id_provider:
+        type: string
+      timestamp:
+        type: string
+      livello_autenticazione:
+        type: string
+  documento_tipo:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  documento_file:
+    type: object
+    properties:
+      nome:
+        type: string
+      dimensione_in_bytes:
+        type: integer
+      base64File:
+        type: string
+  codifica:
+    type: object
+    properties:
+      codice:
+        type: string
+      descrizione:
+        type: string
+  comune_filter:
+    type: object
+    properties:
+      desc:
+        $ref: '#/definitions/string_crit'
+        description: descrizione del comune (in like o eq)
+      codice_catasto:
+        $ref: '#/definitions/string_crit'
+        description: codice catastale del comune
+      data_validita:
+        $ref: '#/definitions/date_crit'
+        description: >-
+          data di validita del comune compresa tra  data_inizio_validita e
+          data_fine_validita
+  comune:
+    type: object
+    properties:
+      codice_istat:
+        type: string
+        description: codice istat del comune
+      desc:
+        type: string
+        description: denominazione del comune
+      codice_catasto:
+        type: string
+        description: codice catastale del comune
+      codice_cap:
+        type: string
+        description: cap del comune
+      data_inizio_validita:
+        type: string
+        format: date
+        description: data inizio validita
+      data_fine_validita:
+        type: string
+        format: date
+        description: data fine validita
+      provincia:
+        $ref: '#/definitions/provincia'
+    example:
+      codice_istat: 'xyz'
+      desc: TORINO
+      codice_catasto: L219
+      codice_cap: '10100'
+      data_inizio_validita: '2006-09-20'
+      data_fine_validita: null
+  provincia:
+    type: object
+    properties:
+      codice_istat:
+        type: string
+        description: codice della provincia di appartenenza
+      desc:
+        type: string
+        description: descrizione della provincia
+      sigla:
+        type: string
+        description: sigla della provincia
+      regione:
+        $ref: '#/definitions/regione'
+    example:
+      codice_istat: 'xyz'
+      desc: TORINO
+      sigla: TO
+  regione:
+    type: object
+    properties:
+      codice_istat:
+        type: string
+        description: codice della regione
+      desc:
+        type: string
+        description: descrizione della regione
+      nazione:
+        $ref: '#/definitions/nazione'
+    example:
+      codice_istat: 'xyz'
+      desc: PIEMONTE
+  nazione:
+    type: object
+    properties:
+      codice_istat:
+        type: string
+        description: codice istat della nazione
+      desc:
+        type: string
+        description: nome della nazione
+      territorio: 
+        type: string
+        description: descrizione territorio
+      data_inizio_validita:
+        type: string
+        format: date
+        description: data inizio validita
+      data_fine_validita:
+        type: string
+        format: date
+        description: data fine validita
+      continente:
+        type: string
+        description: descrizione del continente
+    example:
+      codice_istat: '001'
+      nome: ITALIA
+  errore:
+    allOf:
+      - $ref: '#/definitions/codifica'
+  string_crit:
+    type: object
+    properties:
+      eq:
+        type: string
+      ne:
+        type: string
+      lt:
+        type: string
+      lte:
+        type: string
+      gt:
+        type: string
+      gte:
+        type: string
+      in:
+        type: array
+        items:
+          type: string
+      nin:
+        type: array
+        items:
+          type: string
+      c:
+        type: string
+      ci:
+        type: string
+      s:
+        type: string
+      si:
+        type: string
+      e:
+        type: string
+      ei:
+        type: string
+  integer_crit:
+    type: object
+    properties:
+      eq:
+        type: integer
+      ne:
+        type: integer
+      lt:
+        type: integer
+      lte:
+        type: integer
+      gt:
+        type: integer
+      gte:
+        type: integer
+      in:
+        type: array
+        items:
+          type: integer
+      nin:
+        type: array
+        items:
+          type: integer
+  date_crit:
+    type: object
+    properties:
+      eq:
+        type: string
+        format: date
+      ne:
+        type: string
+        format: date
+      lt:
+        type: string
+        format: date
+      lte:
+        type: string
+        format: date
+      gt:
+        type: string
+        format: date
+      gte:
+        type: string
+        format: date
+      in:
+        type: array
+        items:
+          type: string
+          format: date
+      nin:
+        type: array
+        items:
+          type: string
+          format: date
+  sesso:
+    enum:
+      - M
+      - F
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'

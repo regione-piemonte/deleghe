@@ -1,0 +1,875 @@
+<wsdl:definitions name="DelegheCodificheService" targetNamespace="http://deleghebe.csi.it/">
+<wsdl:types>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://deleghebe.csi.it/" version="1.0">
+<xs:element name="cittadino" type="tns:cittadino"/>
+<xs:element name="cittadinoDeleghe" type="tns:delegaCittadino"/>
+<xs:element name="codifica" type="tns:codifica"/>
+<xs:element name="getDeleganti" type="tns:getDeleganti"/>
+<xs:element name="getDelegantiResponse" type="tns:getDelegantiResponse"/>
+<xs:element name="getDelegati" type="tns:getDelegati"/>
+<xs:element name="getDelegatiResponse" type="tns:getDelegatiResponse"/>
+<xs:element name="isAlive" type="tns:isAlive"/>
+<xs:element name="isAliveResponse" type="tns:isAliveResponse"/>
+<xs:element name="leggiDescrizioneDocumentoService" type="tns:leggiDescrizioneDocumentoService"/>
+<xs:element name="leggiDescrizioneDocumentoServiceResponse" type="tns:leggiDescrizioneDocumentoServiceResponse"/>
+<xs:element name="leggiInformativaConsensoService" type="tns:leggiInformativaConsensoService"/>
+<xs:element name="leggiInformativaConsensoServiceResponse" type="tns:leggiInformativaConsensoServiceResponse"/>
+<xs:element name="leggiStatiDelegaService" type="tns:leggiStatiDelegaService"/>
+<xs:element name="leggiStatiDelegaServiceResponse" type="tns:leggiStatiDelegaServiceResponse"/>
+<xs:element name="leggiStatiDichiarazioneService" type="tns:leggiStatiDichiarazioneService"/>
+<xs:element name="leggiStatiDichiarazioneServiceResponse" type="tns:leggiStatiDichiarazioneServiceResponse"/>
+<xs:element name="leggiTipiDelegaService" type="tns:leggiTipiDelegaService"/>
+<xs:element name="leggiTipiDelegaServiceResponse" type="tns:leggiTipiDelegaServiceResponse"/>
+<xs:element name="leggiTipiDichiarazioneService" type="tns:leggiTipiDichiarazioneService"/>
+<xs:element name="leggiTipiDichiarazioneServiceResponse" type="tns:leggiTipiDichiarazioneServiceResponse"/>
+<xs:element name="leggiTipoDocumentoService" type="tns:leggiTipoDocumentoService"/>
+<xs:element name="leggiTipoDocumentoServiceResponse" type="tns:leggiTipoDocumentoServiceResponse"/>
+<xs:element name="richiedente" type="tns:richiedente"/>
+<xs:element name="rinunciaDelegato" type="tns:rinunciaDelegato"/>
+<xs:element name="rinunciaDelegatoResponse" type="tns:rinunciaDelegatoResponse"/>
+<xs:element name="saveDelegati" type="tns:saveDelegati"/>
+<xs:element name="saveDelegatiResponse" type="tns:saveDelegatiResponse"/>
+<xs:element name="servizioDelega" type="tns:delegaServizio"/>
+<xs:complexType name="leggiStatiDelegaService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiStatiDelega" type="tns:leggiStatiDelega"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiStatiDelega">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="richiedente" type="tns:richiedente"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="richiedente">
+<xs:sequence>
+<xs:element name="servizio" type="tns:applicazioneRichiedente"/>
+<xs:element name="codiceFiscale" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="applicazioneRichiedente">
+<xs:complexContent>
+<xs:extension base="tns:applicazione">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="applicazione">
+<xs:sequence>
+<xs:element name="codice" type="xs:string"/>
+<xs:element name="idRequest" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiStatiDelegaServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiStatiDelegaResponse" type="tns:leggiStatiDelegaResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiStatiDelegaResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoStatoDelega">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="statoDelega" type="tns:statoDelega"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="errori" nillable="true" type="tns:errore"/>
+<xs:element form="unqualified" minOccurs="0" name="esito" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="statoDelega">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="codifica">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="codice" type="xs:string"/>
+<xs:element minOccurs="0" name="descrizione" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="dataCreazione" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataModifica" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataCancellazione" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="loginOperazione" type="xs:string"/>
+<xs:element minOccurs="0" name="ruoloOperazione" type="tns:ruoloOperazione"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruoloOperazione">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="ruoloDeleghe">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence>
+<xs:element minOccurs="0" name="aziendaSanitaria" type="tns:aziendaSanitaria"/>
+<xs:element minOccurs="0" name="profilo" type="tns:profilo"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="aziendaSanitaria">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="profilo">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="errore">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="tipoFileDocumento">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="strutturaSanitaria">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="statoDiNascita">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="unitaOperativaSanitaria">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="comuneDiNascita">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="tipoEpisodio">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="statoDichiarazione">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="tipoDichiarazione">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="tipoDelega">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="servizio">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence>
+<xs:element minOccurs="0" name="serId" type="xs:int"/>
+<xs:element minOccurs="0" name="descrizioneEstesa" type="xs:string"/>
+<xs:element minOccurs="0" name="arruolabile" type="xs:boolean"/>
+<xs:element minOccurs="0" name="delegabile" type="xs:boolean"/>
+<xs:element minOccurs="0" name="notificabile" type="xs:boolean"/>
+<xs:element minOccurs="0" name="obbligatorioArruolamento" type="xs:boolean"/>
+<xs:element minOccurs="0" name="minore" type="xs:boolean"/>
+<xs:element minOccurs="0" name="url" type="xs:string"/>
+<xs:element minOccurs="0" name="validitaServizio" type="xs:string"/>
+<xs:element minOccurs="0" name="numeroGiorniDelegabili" type="xs:int"/>
+<xs:element minOccurs="0" name="dataInizioValidita" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataFineValidita" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="codSerPadre" type="xs:string"/>
+<xs:element minOccurs="0" name="fraseDebole" type="xs:string"/>
+<xs:element minOccurs="0" name="fraseForte" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipiDelegaService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipiDelega" type="tns:leggiTipiDelega"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipiDelega">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipiDelegaServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipiDelegaResponse" type="tns:leggiTipiDelegaResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipiDelegaResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoTipoDelega">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="tipoDelega" type="tns:tipoDelega"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiInformativaConsensoService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiInformativaDocumento" type="tns:leggiInformativaConsensi"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiInformativaConsensi">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiInformativaConsensoServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiInformativaConsensiResponse" type="tns:leggiInformativaConsensiResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiInformativaConsensiResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoInformativaConsensi">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="informativaConsensi" type="tns:informativaConsensi"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="informativaConsensi">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="dataDecorrenza" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataScadenza" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="descInformativa" type="xs:string"/>
+<xs:element minOccurs="0" name="htmlInformativa" type="xs:string"/>
+<xs:element minOccurs="0" name="pdfInformativa" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiDescrizioneDocumentoService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiDescrizioneDocumento" type="tns:leggiDescrizioneDocumento"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiDescrizioneDocumento">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiDescrizioneDocumentoServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiDescrizioneDocumentoResponse" type="tns:leggiDescrizioneDocumentoResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiDescrizioneDocumentoResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoDocumentoTipo">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="documentoTipo" type="tns:documentoTipo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="documentoTipo">
+<xs:complexContent>
+<xs:extension base="tns:codifica">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiStatiDichiarazioneService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiStatiDichiarazione" type="tns:leggiStatiDichiarazione"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiStatiDichiarazione">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiStatiDichiarazioneServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiStatiDichiarazioneResponse" type="tns:leggiStatiDichiarazioneResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiStatiDichiarazioneResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoStatoDichiarazione">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="statoDichiarazione" type="tns:statoDichiarazione"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipoDocumentoService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipoDocumento" type="tns:leggiTipoDocumento"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipoDocumento">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipoDocumentoServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipoDocumentoResponse" type="tns:leggiTipoDocumentoResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipoDocumentoResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="tipoFileDocumento">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="tipoFileDocumento" type="tns:tipoFileDocumento"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipiDichiarazioneService">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipiDichiarazione" type="tns:leggiTipiDichiarazione"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipiDichiarazione">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="leggiTipiDichiarazioneServiceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="leggiTipiDichiarazioneResponse" type="tns:leggiTipiDichiarazioneResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="leggiTipiDichiarazioneResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="elencoTipoDichiarazione">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="tipoDichiarazione" type="tns:tipoDichiarazione"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="cittadino">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+<xs:element minOccurs="0" name="nome" type="xs:string"/>
+<xs:element minOccurs="0" name="cognome" type="xs:string"/>
+<xs:element minOccurs="0" name="sesso" type="xs:string"/>
+<xs:element minOccurs="0" name="idAura" type="xs:long"/>
+<xs:element minOccurs="0" name="citId" type="xs:int"/>
+<xs:element minOccurs="0" name="dataNascita" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="comuneNascita" type="xs:string"/>
+<xs:element minOccurs="0" name="asl" type="xs:string"/>
+<xs:element minOccurs="0" name="statoDati" type="xs:string"/>
+<xs:element minOccurs="0" name="statoUtenza" type="xs:string"/>
+<xs:element minOccurs="0" name="documento" type="tns:documento"/>
+<xs:element minOccurs="0" name="verificatoAsl" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="documento">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="autorita" type="xs:string"/>
+<xs:element minOccurs="0" name="dataRilascio" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataScadenzaDoc" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="docDesc" type="xs:string"/>
+<xs:element minOccurs="0" name="documentoTipo" type="tns:documentoTipo"/>
+<xs:element minOccurs="0" name="file" type="tns:documentoFile"/>
+<xs:element minOccurs="0" name="fileId" type="xs:int"/>
+<xs:element minOccurs="0" name="id" type="xs:int"/>
+<xs:element minOccurs="0" name="numeroDocumento" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="documentoFile">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="base64File" type="xs:string"/>
+<xs:element minOccurs="0" name="dimensioneInBytes" type="xs:int"/>
+<xs:element minOccurs="0" name="fileId" type="xs:int"/>
+<xs:element minOccurs="0" name="nome" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="getDelegati">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="cittadinoDelegante" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="cittadinoDelegato" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="codiciServizio">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="codiceServizio" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element form="unqualified" minOccurs="0" name="statiDelega">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="statoDelega" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="delegaServizio">
+<xs:sequence>
+<xs:element minOccurs="0" name="UUID" type="xs:string"/>
+<xs:element name="codiceServizio" type="xs:string"/>
+<xs:element name="dataInizioDelega" type="xs:dateTime"/>
+<xs:element name="dataFineDelega" type="xs:dateTime"/>
+<xs:element name="statoDelega" type="xs:string"/>
+<xs:element minOccurs="0" name="dataRevoca" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="dataRinuncia" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="tipoDelega" type="xs:string"/>
+<xs:element minOccurs="0" name="gradoDelega" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delegaCittadino">
+<xs:sequence>
+<xs:element minOccurs="0" name="UUID" type="xs:string"/>
+<xs:element name="codiceFiscale" type="xs:string"/>
+<xs:element minOccurs="0" name="cognome" type="xs:string"/>
+<xs:element minOccurs="0" name="nome" type="xs:string"/>
+<xs:element minOccurs="0" name="dataDiNascita" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="sesso" type="xs:string"/>
+<xs:element minOccurs="0" name="idAura" type="xs:long"/>
+<xs:element minOccurs="0" name="luogoNascita" type="xs:string"/>
+<xs:element name="stato" type="xs:string"/>
+<xs:element minOccurs="0" name="delegatoInput" type="tns:delegato"/>
+<xs:element minOccurs="0" name="deleghe">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="delega" type="tns:delegaServizio"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element minOccurs="0" name="tipoDelega" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delegato">
+<xs:complexContent>
+<xs:extension base="tns:entita">
+<xs:sequence>
+<xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+<xs:element minOccurs="0" name="nome" type="xs:string"/>
+<xs:element minOccurs="0" name="cognome" type="xs:string"/>
+<xs:element minOccurs="0" name="dataNascita" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="comuneNascita" type="xs:string"/>
+<xs:element minOccurs="0" name="sesso" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="deleganti">
+<xs:sequence>
+<xs:element minOccurs="0" name="delegante" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="delegati">
+<xs:sequence>
+<xs:element minOccurs="0" name="delegato" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isAlive">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="in" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="getDelegatiResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="delegati">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="delegato" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="saveDelegatiResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="delegati">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="delegato" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="getDelegantiResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="deleganti">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="delegante" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="saveDelegati">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="cittadinoDelegante" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="delegati">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" name="delegato" type="tns:delegaCittadino"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="getDeleganti">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="cittadinoDelegato" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="cittadinoDelegante" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="codiciServizio">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="codiceServizio" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element form="unqualified" minOccurs="0" name="statiDelega">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="statoDelega" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="rinunciaDelegatoResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="isAliveResponse">
+<xs:complexContent>
+<xs:extension base="tns:serviceResponse">
+<xs:sequence>
+<xs:element form="unqualified" name="out" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="rinunciaDelegato">
+<xs:complexContent>
+<xs:extension base="tns:serviceRequest">
+<xs:sequence>
+<xs:element form="unqualified" name="cittadinoDelegato" type="tns:cittadino"/>
+<xs:element form="unqualified" name="cittadinoDelegante" type="tns:cittadino"/>
+<xs:element form="unqualified" minOccurs="0" name="uuidDelegaServizii">
+<xs:complexType>
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" name="uuidDelegaServizio" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="risultatoCodice">
+<xs:restriction base="xs:string">
+<xs:enumeration value="SUCCESSO"/>
+<xs:enumeration value="FALLIMENTO"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="sesso">
+<xs:restriction base="xs:string">
+<xs:enumeration value="M"/>
+<xs:enumeration value="F"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="leggiTipiDelegaService">
+<wsdl:part element="tns:leggiTipiDelegaService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiDescrizioneDocumentoServiceResponse">
+<wsdl:part element="tns:leggiDescrizioneDocumentoServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiStatiDelegaServiceResponse">
+<wsdl:part element="tns:leggiStatiDelegaServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiDescrizioneDocumentoService">
+<wsdl:part element="tns:leggiDescrizioneDocumentoService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiStatiDichiarazioneService">
+<wsdl:part element="tns:leggiStatiDichiarazioneService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiTipiDichiarazioneService">
+<wsdl:part element="tns:leggiTipiDichiarazioneService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiStatiDelegaService">
+<wsdl:part element="tns:leggiStatiDelegaService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiTipiDelegaServiceResponse">
+<wsdl:part element="tns:leggiTipiDelegaServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiInformativaConsensoService">
+<wsdl:part element="tns:leggiInformativaConsensoService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiTipoDocumentoService">
+<wsdl:part element="tns:leggiTipoDocumentoService" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiTipoDocumentoServiceResponse">
+<wsdl:part element="tns:leggiTipoDocumentoServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiInformativaConsensoServiceResponse">
+<wsdl:part element="tns:leggiInformativaConsensoServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiStatiDichiarazioneServiceResponse">
+<wsdl:part element="tns:leggiStatiDichiarazioneServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="leggiTipiDichiarazioneServiceResponse">
+<wsdl:part element="tns:leggiTipiDichiarazioneServiceResponse" name="parameters"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="DelegheCodificheService">
+<wsdl:operation name="leggiStatiDelegaService">
+<wsdl:input message="tns:leggiStatiDelegaService" name="leggiStatiDelegaService"> </wsdl:input>
+<wsdl:output message="tns:leggiStatiDelegaServiceResponse" name="leggiStatiDelegaServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipiDelegaService">
+<wsdl:input message="tns:leggiTipiDelegaService" name="leggiTipiDelegaService"> </wsdl:input>
+<wsdl:output message="tns:leggiTipiDelegaServiceResponse" name="leggiTipiDelegaServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiInformativaConsensoService">
+<wsdl:input message="tns:leggiInformativaConsensoService" name="leggiInformativaConsensoService"> </wsdl:input>
+<wsdl:output message="tns:leggiInformativaConsensoServiceResponse" name="leggiInformativaConsensoServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiDescrizioneDocumentoService">
+<wsdl:input message="tns:leggiDescrizioneDocumentoService" name="leggiDescrizioneDocumentoService"> </wsdl:input>
+<wsdl:output message="tns:leggiDescrizioneDocumentoServiceResponse" name="leggiDescrizioneDocumentoServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiStatiDichiarazioneService">
+<wsdl:input message="tns:leggiStatiDichiarazioneService" name="leggiStatiDichiarazioneService"> </wsdl:input>
+<wsdl:output message="tns:leggiStatiDichiarazioneServiceResponse" name="leggiStatiDichiarazioneServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipoDocumentoService">
+<wsdl:input message="tns:leggiTipoDocumentoService" name="leggiTipoDocumentoService"> </wsdl:input>
+<wsdl:output message="tns:leggiTipoDocumentoServiceResponse" name="leggiTipoDocumentoServiceResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipiDichiarazioneService">
+<wsdl:input message="tns:leggiTipiDichiarazioneService" name="leggiTipiDichiarazioneService"> </wsdl:input>
+<wsdl:output message="tns:leggiTipiDichiarazioneServiceResponse" name="leggiTipiDichiarazioneServiceResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="DelegheCodificheServiceSoapBinding" type="tns:DelegheCodificheService">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="leggiStatiDelegaService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiStatiDelegaService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiStatiDelegaServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipiDelegaService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiTipiDelegaService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiTipiDelegaServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiInformativaConsensoService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiInformativaConsensoService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiInformativaConsensoServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiDescrizioneDocumentoService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiDescrizioneDocumentoService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiDescrizioneDocumentoServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiStatiDichiarazioneService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiStatiDichiarazioneService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiStatiDichiarazioneServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipoDocumentoService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiTipoDocumentoService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiTipoDocumentoServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="leggiTipiDichiarazioneService">
+<soap:operation soapAction="" style="document"/>
+<wsdl:input name="leggiTipiDichiarazioneService">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="leggiTipiDichiarazioneServiceResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="DelegheCodificheService">
+<wsdl:port binding="tns:DelegheCodificheServiceSoapBinding" name="DelegheCodificheServiceImplPort">
+<soap:address location="http://xyz/deleghebe-web/DelegheCodificheService"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
