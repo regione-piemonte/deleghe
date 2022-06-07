@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="../resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="../resources/js/jquery.soap.js"></script>
+
+<style type="text/css">
+	
+</style>
+
+</head>
+<body>
+  <h1>jQuery SOAP example</h1>
+
+  <div >Proviamo a chiamare Delege SOAP! Schiaccia "call" ....</div>
+  
+  <p>
+  <button id="call">call</button>
+  <button id="reset">reset</button>
+  </p>
+
+  <script type="text/javascript">
+	
+    $("#call").click(function () {
+		
+        $.soap({
+            
+            url: 'http://localhost:8080/deleghebe-web/DelegheCittadiniService',
+            method: 'getDelegatiService',
+            namespaceQualifier: 'del',
+            namespaceURL: 'http://deleghebe.csi.it/',
+            appendMethodToURL: false,
+            soap12: false,
+            data: {
+                    /*getDelegati: {
+                        richiedente: {
+                           servizio: {
+                        	  codice: "codice richiedente",
+                        	  idRequest: 1,
+                           }
+                        }
+                    }*/
+            },
+            success: function (soapResponse) {
+                // do stuff with soapResponse
+                alert("success! \n"+ soapResponse);
+            },
+            error: function (soapResponse) {
+                // show error
+                alert("error! \n"+ soapResponse);
+            }
+        });
+	  
+    });
+	
+    $("#reset").click(function () {
+	  location.reload();
+    });
+	
+</script>
+</body>
+</html>

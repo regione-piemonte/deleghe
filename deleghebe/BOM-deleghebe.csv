@@ -1,0 +1,12 @@
+name@version *,license *,copyrights *,end-of-support,dependencies,language,repository,email,URL
+aopalliance-1.0.0.jar,"Public Domain",-,-,-,Java,-,-,-
+cglib-2.2.2.jar,"Apache-2.0",-,-,-,Java,-,-,-
+commons-lang3-3.2.1.jar,"Apache-2.0",-,-,-,Java,-,-,-
+commons-logging-1.1.1.jar,"Apache-2.0",-,-,-,Java,-,-,-
+jquery-3.3.1.js,MIT,https://openjsf.org/,-,-,Javascript,-,-,-
+log4j-1.2.14.jar,"Apache-2.0",-,-,-,Java,-,-,-
+spring-core-4.1.2.RELEASE.jar,"Apache-2.0",-,-,-,Java,-,-,-
+spring-expression-4.1.2.RELEASE.jar,"Apache-2.0",-,-,-,Java,-,-,-
+spring-tx-4.1.2.RELEASE.jar,"Apache-2.0",-,-,-,Java,-,-,-
+spring-web-4.1.2.RELEASE.jar,"Apache-2.0",-,-,-,Java,-,-,-
+util-perf-1.0.0.jar,"Apache-2.0; MIT (Rilasciata da CSI Piemonte su richiesta)",CSI-Piemonte,-,-,Java,-,-,-

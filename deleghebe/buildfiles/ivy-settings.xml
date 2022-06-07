@@ -1,0 +1,19 @@
+<ivy-settings>
+	
+	<property name="repo.host" value="xyz.csi.it" override="false"/>
+    <property name="repo.realm" value="Artifactory Realm" override="false"/>
+    <property name="repo.user" value="xyz"  override="false"/>
+    <property name="repo.pass" value="xyz"  override="false"/>          
+
+    <credentials host="${repo.host}" realm="${repo.realm}" username="${repo.user}" passwd="${repo.pass}"/>
+	
+	<settings defaultCache="${basedir}/build/ivycache" defaultResolver="myUrlResolver" />
+	<resolvers>
+		<url name="myUrlResolver">
+			<artifact
+				pattern="http://xyz.csi.it/java/[organisation]/[module]/[revision]/lib/[artifact].[type]" />
+			<ivy
+				pattern="http://xyz.csi.it/java/[organisation]/[module]/[revision]/ivy-[module].xml" />
+		</url>
+	</resolvers>
+</ivy-settings>

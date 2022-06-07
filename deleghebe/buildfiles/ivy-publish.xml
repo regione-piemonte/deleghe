@@ -1,0 +1,6 @@
+<ivy-module version="2.0">
+	<info organisation="csipiemonte" module="deleghe-deleghebe-itf" revision="1.3.0" />
+	<publications>
+		<artifact name="deleghebe-itf-1.3.0" type="jar" />
+	</publications>
+</ivy-module>

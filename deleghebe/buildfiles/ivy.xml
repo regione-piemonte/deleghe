@@ -1,0 +1,64 @@
+<ivy-module version="1.0">
+	<info organisation="csipiemonte" module="qpisanpag" />
+	<dependencies>
+
+		<dependency org="apache" name="log4j" rev="1.2.14">
+			<artifact name="log4j-1.2.14" type="jar" />
+		</dependency>
+
+		<dependency org="csipiemonte" name="util-perf" rev="1.0.0">
+			<artifact name="util-perf-1.0.0" type="jar" />
+		</dependency>
+
+		<dependency org="apache" name="commons-logging" rev="1.1.1">
+			<artifact name="commons-logging-1.1.1" type="jar" />
+		</dependency>
+		
+		<dependency org="apache" name="commons-lang3" rev="3.2.1">
+			<artifact name="commons-lang3-3.2.1" type="jar" />
+		</dependency>
+
+	  	<dependency org="others" name="aopalliance" rev="1.0.0" >
+			<artifact name="aopalliance-1.0.0" type="jar" />
+		</dependency> 
+		
+    	<dependency org="others" name="asm" rev="3.3.1"  transitive="false"/>
+    	
+    	<dependency org="others" name="cglib" rev="2.2.2">
+			<artifact name="cglib-2.2.2" type="jar"/>
+		</dependency>
+		
+		<dependency org="others" name="asm" rev="3.3.1">
+			<artifact name="asm-3.3.1" type="jar"/>
+		</dependency>
+		
+		<!-- ############################################################## -->
+    	<!-- # SPRING                                                     # -->
+    	<!-- ############################################################## -->
+   
+	    <dependency org="others" name="spring" rev="4.1.2.RELEASE" transitive="false">
+	    	<artifact name="spring-aop-4.1.2.RELEASE" type="jar" />         
+			<artifact name="spring-beans-4.1.2.RELEASE" type="jar" />        
+			<artifact name="spring-context-4.1.2.RELEASE"  type="jar" />      
+			<artifact name="spring-core-4.1.2.RELEASE"   type="jar" />         
+			<artifact name="spring-expression-4.1.2.RELEASE" type="jar" />   
+			<artifact name="spring-jdbc-4.1.2.RELEASE"  type="jar" />         
+			<artifact name="spring-orm-4.1.2.RELEASE"   type="jar" />          
+			<artifact name="spring-test-4.1.2.RELEASE"  type="jar" />         
+			<artifact name="spring-tx-4.1.2.RELEASE"  type="jar" />           
+			<artifact name="spring-web-4.1.2.RELEASE"  type="jar" />          
+	    </dependency>
+
+		<dependency org="redhat" name="validation-api" rev="1.0.0.GA-redhat-3">
+			<artifact name="validation-api-1.0.0.GA-redhat-3" type="jar" />
+		</dependency>
+
+		
+		<dependency org="bouncycastle" name="bcprov-jdk15" rev="151">
+		</dependency>
+		
+		
+	</dependencies>
+
+</ivy-module>
+
