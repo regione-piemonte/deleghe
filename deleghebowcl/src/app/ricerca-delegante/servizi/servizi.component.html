@@ -1,0 +1,252 @@
+<div>
+  <a style="text-decoration: none" [routerLink]="['../']">
+    <i class="fa fa-arrow-left"></i>
+    Inserisci delegato</a>
+</div>
+
+<h3 class="my-4" *ngIf="!loading && delegatoTested">
+  Nuova delega:
+</h3>
+<h3 class="my-4" *ngIf="!loading && delegatoTested">
+  Delegante: {{citizen.cognome + " " + citizen.nome}}
+</h3>
+<h3 class="my-4" *ngIf="!loading && delegatoTested">
+  Delegato: {{cognomeDelegato + " " + nomeDelegato}}
+</h3>
+
+
+
+<nuova-delega-stage *ngIf="!loading && delegatoTested" [stageNames]="['Delegato', 'Scelta servizi', 'Riepilogo']" [numberOfActiveStage]="2"></nuova-delega-stage>
+
+
+<div class="row my-5 justify-content-center" *ngIf="loading || !delegatoTested">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+
+<div class="panel" *ngIf="!loading && delegatoTested">
+  <div class="row mt-3 ml-3">
+    <strong style="font-size: 25px">Scelta servizi</strong>
+  </div>
+
+
+  <form action="#" class="pb-4">
+
+    <div *ngFor="let service of serviceList; let i = index" class="row mt-5 mx-3" style="border-bottom: 1px solid lightgrey">
+
+      <div class="col-12 row col-sm-5">
+        <strong class="col-12">{{service.description_servizio | uppercase}}</strong>
+              <p hidden>{{service.codice_servizio}}</p>
+              <div>
+                  <label>ATTIVAZIONE
+                    <input [(ngModel)]="service.checkAttiva"  name="ATTIVA-{{service.uuid}}"
+                    type="checkbox" id="ATTIVA-{{service.uuid}}"
+                    (change)="attivaDisattivaNeutro(service);"/>
+                  </label>
+              </div>
+              <div style="width:10px;float: left;"></div>
+      </div>
+
+      <div class="col-12 row col-sm-5">
+          <div class="col-6">
+              <label for="dal-{{service.uuid}}" style="color: #0066FF; font-weight: 500">Validità
+                dal</label>
+              <div class="d-md-block">
+                <div class="input-group input-append date"
+                      data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                  <span class="input-group-addon add-on"></span>
+                  <input type="text" class="form-control" name="datanasBen"
+                        id="dal-{{service.uuid}}" #dal value="{{dateToday}}"
+                        style="border-right-width: 1px; padding-right: 12px;" disabled>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-6">
+              <label for="al-{{service.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{service.dataAlMassima}})</label>
+              <div class="d-md-block">
+                <div class="input-group input-append date"
+                      data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                  <span class="input-group-addon add-on"></span>
+                  <input type="text" class="form-control" name="datanasBen-service-al-{{service.uuid}}"
+                        id="al-{{service.uuid}}" #al placeholder="gg/mm/aaaa"
+                        style="border-right-width: 1px; padding-right: 12px;"
+                        [(ngModel)]="service.data_fine_delega_new_text" [disabled]="service.disabilitaData">
+                </div>
+              </div>
+          </div>
+
+          <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="service.isNullDate">
+            Inserire entrambe le date solo se si attiva o rinnova il servizio
+          </span>
+
+          <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="service.isStartDateBigger">
+            Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilare la data correttamente
+          </span>
+
+      </div>
+
+    </div>
+
+    <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey">
+      <div class="row">
+        <div class="col-md-12"><h4>Servizi legati al Fascicolo Sanitario</h4></div>
+      </div>
+    </div>
+
+
+    <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let serviceFse of serviceListFSE ; let i = index">
+
+          <div class="col-12 row col-sm-5">
+            <strong class="col-12">{{serviceFse.description_servizio | uppercase}}</strong>
+                  <p hidden>{{serviceFse.codice_servizio}}</p>
+                <div>
+                    <label>ATTIVAZIONE
+                      <input [(ngModel)]="serviceFse.checkAttiva"  name="ATTIVA-{{serviceFse.uuid}}" type="checkbox" id="ATTIVA-{{serviceFse.uuid}}" disabled/>
+                    </label>
+                </div>
+                <div style="width:10px;float: left;"></div>
+          </div>
+
+
+
+          <div class="col-12 row col-sm-5">
+              <div class="col-6">
+                  <label for="dal-{{serviceFse.uuid}}" style="color: #0066FF; font-weight: 500">Validità
+                    dal</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen"
+                            id="dal-{{serviceFse.uuid}}" #dal value="{{dateToday}}"
+                            style="border-right-width: 1px; padding-right: 12px;" disabled>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-6">
+                  <label for="al-{{serviceFse.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{serviceFse.dataAlMassima}})</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen"
+                            id="al-{{serviceFse.uuid}}" #al value="{{dateOneYearFSE}}"
+                            style="border-right-width: 1px; padding-right: 12px;" [disabled]="serviceFse.disabilitaData">
+                    </div>
+                  </div>
+              </div>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceFse.isNullDate">
+                Inserire entrambe le date se si attiva il servizio
+              </span>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceFse.isStartDateBigger">
+                Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilate la data correttamente
+              </span>
+
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <h5>Cosa può fare il delegato</h5>
+                  <div *ngIf="serviceFse.fraseDebole !== null" >
+                    <div style="width:10px;float: left;"></div>
+                    <label>{{serviceFse.fraseDebole}}
+                      <input [(ngModel)]="serviceFse.debole" name="DEBOLE-{{serviceFse.uuid}}" type="checkbox" id="DEBOLE-{{serviceFse.uuid}}"  (click)="selezionaDelegheDeboli()"/>
+                    </label>
+                  </div>
+
+                  <div *ngIf="serviceFse.fraseForte !== null" >
+                    <div style="width:10px;float: left;"></div>
+                    <label>{{serviceFse.fraseForte}}
+                      <input [(ngModel)]="serviceFse.forte" name="FORTE-{{serviceFse.uuid}}" type="checkbox" id="FORTE-{{serviceFse.uuid}}" (click)="selezionaDelegheForti()"/>
+                    </label>
+                  </div>
+            </div>
+          </div>
+
+    </div>
+
+    <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let serviceSenzaGrado of serviceListSenzaGrado ; let i = index">
+
+          <div class="col-12 row col-sm-5">
+            <span class="col-12">{{serviceSenzaGrado.description_servizio | uppercase}}</span>
+                <p hidden>{{serviceSenzaGrado.codice_servizio}}</p>
+                <div>
+                  <label>ATTIVAZIONE
+                    <input [(ngModel)]="serviceSenzaGrado.checkAttivaForti"  name="ATTIVA-{{serviceSenzaGrado.uuid}}" type="checkbox" id="ATTIVA-{{serviceSenzaGrado.uuid}}" (click)="attivaDisattivaNeutroSenzaGrado(serviceSenzaGrado.uuid)"/>
+                  </label>
+                </div>
+                <div style="width:10px;float: left;"></div>
+          </div>
+
+          <div class="col-12 row col-sm-5">
+              <div class="col-6">
+                  <label for="dal-{{serviceSenzaGrado.uuid}}" style="color: #0066FF; font-weight: 500">Validità
+                    dal</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen"
+                            id="dal-{{serviceSenzaGrado.uuid}}" #dal value="{{dateToday}}"
+                            style="border-right-width: 1px; padding-right: 12px;" disabled>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-6">
+                  <label for="al-{{serviceSenzaGrado.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{serviceSenzaGrado.dataAlMassima}})</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen"
+                            id="al-{{serviceSenzaGrado.uuid}}" #al placeholder="gg/mm/aaaa"
+                            style="border-right-width: 1px; padding-right: 12px;" >
+                    </div>
+                  </div>
+              </div>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceSenzaGrado.isNullDate">
+                Inserire entrambe le date se si attiva o modifica il servizio o le sua delega
+              </span>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceSenzaGrado.isStartDateBigger">
+                Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilate la data correttamente
+              </span>
+
+          </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <h5>Cosa può fare il delegato</h5>
+                    <div>
+                      <div style="width:10px;float: left;"></div>
+                      <label>{{serviceSenzaGrado.fraseForte}}
+                      </label>
+                    </div>
+              </div>
+            </div>
+
+    </div>
+
+    <div class="row justify-content-between mt-4 mx-3" *ngIf="!loading && delegatoTested">
+      <div class="col-4">
+        <button class="btn btn-primary white-button" [routerLink]="['../']">Indietro</button>
+      </div>
+      <div class="col-4">
+
+        <button class="btn btn-primary blue-button" (click)="roteToRiepilogo()">Continua</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+

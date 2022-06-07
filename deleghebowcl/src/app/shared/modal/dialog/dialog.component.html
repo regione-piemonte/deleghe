@@ -1,0 +1,29 @@
+<div class="modal-body">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()"></button>
+  <div class="panel-inside">
+    <label class="label-title"> {{ message }}</label>
+    <label class="label-inside" *ngIf="isMotivationRequired">{{ additionalMessage }}</label>
+
+    <div *ngIf="isMotivationRequired">
+      <label class="motivazione-title">Motivazione</label>
+      <label class="motivazione-label">
+        <select name="motivatione" [(ngModel)]="motivatione" class="motivazione-select">
+          <option value="">Seleziona motivazione</option>
+          <option value="Divorzio">Divorzio</option>
+          <option value="Morte">Morte</option>
+          <option value="Altra descrizione">Altra descrizione</option>
+        </select>
+      </label>
+      <label *ngIf="motivatione === 'Altra descrizione'" class="motivazione-label">
+        <textarea [(ngModel)]="motivaText" name="motivaText" class="motivazione-area"> </textarea>
+      </label>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="btn btn-cancel" (click)="dismiss()">{{ btnCancelText }}</button>
+      <button type="button" class="btn btn-ok" (click)="accept()">{{ btnOkText }}</button>
+    </div>
+
+  </div>
+</div>

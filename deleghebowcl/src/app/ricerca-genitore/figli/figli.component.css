@@ -1,0 +1,79 @@
+.panel{
+  background-color: white;
+  border: 1px solid black;
+  border-radius: inherit;
+  -moz-box-shadow: 3px 5px 6px #acacac;
+  -webkit-box-shadow: 3px 5px 6px #acacac;
+  box-shadow: 3px 5px 6px #acacac;
+  margin-bottom: 25px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.blue-button, .white-button {
+  width: 100%;
+  font-size: 20px;
+}
+
+.blue-button {
+  color: white;
+  background-color: #026BB1;
+  border: 2px solid #026BB1;
+}
+
+.blue-button:hover {
+  color: #026BB1 !important;
+  background-color: white !important;
+  border: 2px solid #026BB1;
+}
+
+.blue-button:disabled {
+  color: grey !important;
+  background-color: lightgrey !important;
+  border: 2px solid lightgrey;
+  cursor: default;
+}
+
+.white-button {
+  color: #026BB1 !important;
+  background-color: white !important;
+  border: 2px solid #026BB1;
+}
+
+.white-button:hover {
+  color: white !important;
+  background-color: #026BB1 !important;
+}
+
+
+@media screen and (max-width: 575px) {
+  img {
+    margin-bottom: 15px;
+  }
+
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 965px) {
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 825px) {
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+.minore-non-trovato {
+  font-size: 20px;
+  text-align: center;
+}

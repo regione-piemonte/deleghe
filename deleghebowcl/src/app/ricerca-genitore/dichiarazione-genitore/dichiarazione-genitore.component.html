@@ -1,0 +1,320 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen || !newDichiarazione">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<div *ngIf="citizen && newDichiarazione">
+
+  <div>
+    <a style="text-decoration: none" [routerLink]="['/ricerca/genitore']">
+      <i class="fa fa-arrow-left"></i>
+      Ricerca genitore 1</a>
+  </div>
+
+
+  <h3 class="my-4">
+    Nuova delega: genitore 1 {{citizen.cognome + " " + citizen.nome}}
+  </h3>
+
+
+  <nuova-delega-stage [stageNames]="['Dichiarazione altro genitore', 'Figlio/figli', 'Riepilogo']"
+                      [numberOfActiveStage]="1"></nuova-delega-stage>
+
+
+  <ng-container>
+    <div class="panel mt-5 pl-3 pb-5 pt-3">
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Nome</strong>
+          <span class="col-12">{{citizen.nome}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Cognome</strong>
+          <span class="col-12">{{citizen.cognome}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Data di nascita</strong>
+          <span class="col-12">{{citizen.data_nascita | date: 'dd.MM.yyyy'}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Codice fiscale</strong>
+          <span class="col-12">{{citizen.codice_fiscale}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Luogo di nascita</strong>
+          <span class="col-12">{{citizen.comune_nascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Sesso</strong>
+          <span class="col-12">{{citizen.sesso}}</span>
+        </div>
+      </div>
+
+
+    </div>
+  </ng-container>
+
+
+  <div class="panel mt-5 pl-3 pb-5">
+    <h4 class="my-4">
+      Vuoi aggiungere un altro genitore?
+    </h4>
+
+    <div class="form-check-inline mr-5">
+      <input class="form-check-input" type="radio" name="addGenitore" #noInput id="no" (click)="chooseAddingGenitore(false)" checked>
+      <label class="form-check-label" for="no">
+        No
+      </label>
+    </div>
+    <div class="form-check-inline">
+      <input class="form-check-input" type="radio" name="addGenitore" #siInput id="si"
+             (click)="chooseAddingGenitore(true)">
+      <label class="form-check-label" for="si">
+        Sì
+      </label>
+    </div>
+  </div>
+
+
+    <div *ngIf="isShowingGenitoriSummary">
+      <div *ngFor="let altroGenitore of newDichiarazione.altroGenitore; let i = index" class="panel mt-5 pl-3 pb-5 pt-3">
+        <h4 class="my-4 mr-5">
+          Dati del genitore {{i + 2}}
+        </h4>
+
+        <div class="row">
+
+          <div class="col-6">
+            <label for="codiceFiscale" style="font-weight: 500">Codice fiscale</label>
+            <input type="text" name="searchFiscalCode" [(ngModel)]="altroGenitore.searchFiscalCode" class="form-control" id="codiceFiscale">
+            <small *ngIf="!searchFiscalCodeFormatOk[i] && altroGenitore.searchFiscalCode" class="text-danger">Errato formato del codice fiscale</small>
+          </div>
+          <div class="col-3" style="margin-top: auto">
+
+            <button type="submit"  class="cerca-button btn btn-primary" style="width: inherit" (click)="findNewGenitore(i)">Cerca</button>
+          </div>
+        </div>
+
+
+        <div *ngIf="altroGenitore.nonTrovato !== undefined">
+          <div *ngIf="!altroGenitore.nonTrovato" class="mt-4">
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Nome</strong>
+                <span class="col-12">{{altroGenitore.nome}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Cognome</strong>
+                <span class="col-12">{{altroGenitore.cognome}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data di nascita</strong>
+                <span class="col-12">{{altroGenitore.data_nascita| date: 'dd.MM.yyyy'}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Codice fiscale</strong>
+                <span class="col-12">{{altroGenitore.codice_fiscale}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Luogo di nascita</strong>
+                <span class="col-12">{{altroGenitore.comune_nascita}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Sesso</strong>
+                <span class="col-12">{{altroGenitore.sesso}}</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+          <div class="mt-4"  *ngIf="altroGenitore.isNotFoundWarning">
+            <div class="warn form-row" style="margin-right: 0; margin-left: 0;">
+              <div class="col-md-0">
+                <i class="fa fa-exclamation-triangle icon"> </i></div>
+              <div class="col-11 col-md-10 col-lg-10 col-xl-9">
+                <label class="warn-label">Il nominativo del cittadino che hai cercato <b>non è presente</b> nella Banca dati
+                  Puoi inserirlo e procedere</label>
+              </div>
+              <div class="col-12 row col-sm-12">
+                <small>E' necessario compilare tutti i campi</small>
+              </div>
+            </div>
+
+            <form class="mx-4 my-5">
+              <div *ngIf="altroGenitore.isNotFoundWarning">
+                <div class="form-row mt-4">
+                  <div class="form-group col-md-5">
+                    <label for="Nome">Nome</label>
+                    <input name="nome2" [(ngModel)]="altroGenitore.nome" type="text" class="form-control" id="Nome">
+                  </div>
+                  <div class="col-md-1"></div>
+                  <div class="form-group col-md-5">
+                    <label for="Cognome">Cognome</label>
+                    <input name="cognome2" [(ngModel)]="altroGenitore.cognome" type="text" class="form-control" id="Cognome">
+                  </div>
+                </div>
+
+                <div class="form-row mt-4">
+                  <div class="form-group col-md-5">
+                    <label for="datanascita">Data di nascita</label>
+                    <div class="d-md-block">
+                      <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                        <span class="input-group-addon add-on"></span>
+                        <input [(ngModel)]="altroGenitore.data_nascita" type="text" class="form-control" name="datanascita"
+                               id="datanascita" #data_nascita placeholder="gg/mm/aaaa"
+                               style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-1"></div>
+
+
+
+                  <div class="col-6">
+                    <label for="codiceFiscale" style="font-weight: 500">Codice fiscale</label>
+                    <input type="text" name="codice_fiscale" [(ngModel)]="altroGenitore.codice_fiscale" class="form-control" id="codiceFiscale">
+                    <small *ngIf="!searchFiscalCodeFormatOk[i] && altroGenitore.codice_fiscale" class="text-danger">Errato formato del codice fiscale</small>
+                  </div>
+                </div>
+
+                <div class="form-row mt-4">
+
+                  <div class="form-group col-md-5"  *ngIf="altroGenitore.isValid; else comuniCaricati">
+                    <label for="luogoDiNascita">Luogo di nascita</label>
+                    <input type="text" name="comune_nascita" [(ngModel)]="altroGenitore.comune_nascita" class="form-control" id="luogoDiNascita" (input)="onSearchChange($event.target.value,i)">
+                  </div>
+
+                  <ng-template #comuniCaricati>
+                    <div class="form-group col-md-5">
+                      <label for="luogoDiNascita">Luogo di nascita</label>
+                      <select [(ngModel)]="altroGenitore.comune_nascita" class="form-control" name="comune_nascita" id="luogoDiNascita" >
+                        <option *ngFor="let elencoCom of altroGenitore.elencoComuniCaricati" value="{{elencoCom.desc}}">{{elencoCom.desc}}</option>
+                      </select>
+                      <button class="btn btn-primary white-button" (click)="annulla(i)" layout-align="end center">Annulla Ricerca</button>
+                    </div>
+                  </ng-template>
+
+                  <div class="col-md-1"></div>
+
+                  <div class="form-group col-md-5">
+                    <label>Sesso</label><br>
+                    <input type="radio" value="M" name="Sesso" id="Sesso-M" [(ngModel)]="altroGenitore.sesso"> <label for="Sesso-M">M</label>
+                    <input type="radio" value="F" name="Sesso" id="Sesso-F" class="ml-5" [(ngModel)]="altroGenitore.sesso"> <label for="Sesso-F">F</label>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="form-row mt-4">
+                <div class="form-group col-md-5">
+                  <label style="font-size: 18px">Inserisci documento di identità<br/></label>
+                </div>
+              </div>
+
+              <div class="form-row mt-4">
+                <div class="form-group col-md-5">
+                  <label>Tipo documento</label>
+                </div>
+                <div class="form-group col-md-1"></div>
+
+
+             </div>
+
+              <div class="form-row">
+
+                <div class="form-group col-md-5">
+                  <select [(ngModel)]="workingCitizen.tipoDocumento" name="tipoDocumento" class="form-control" id="formTipoDocumento">
+                    <option value="" disabled>Seleziona tipo documento</option>
+                    <option *ngFor="let tipodoc of elencoDescrizioneDocumento" value="{{tipodoc.descrizione}}">{{tipodoc.descrizione}}</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-1"></div>
+
+
+             </div>
+
+              <div class="form-row mt-4">
+                <div class="form-group col-md-5">
+                  <label for="Numero">
+                    Numero documento identità</label>
+                  <input name="Numero" type="text" [(ngModel)]="altroGenitore.nrodocumento" class="form-control" id="Numero">
+                </div>
+                <div class="col-md-1"></div>
+                <div class="form-group col-md-5">
+                  <label for="Rilasciato">Rilasciato da</label>
+                  <input name="Rilasciato" type="text" [(ngModel)]="altroGenitore.rilasciato" class="form-control" id="Rilasciato">
+                </div>
+              </div>
+
+              <div class="form-row mt-4">
+                <div class="form-group col-md-5">
+                  <label for="DataRilascio">Data rilascio</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                        data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input [(ngModel)]="altroGenitore.data_rilascio" type="text" class="form-control" name="datarilascio"
+                             id="DataRilascio" #data_rilascio placeholder="gg/mm/aaaa"
+                             style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+
+                <div class="form-group col-md-5">
+                  <label for="datascadenza">Data scadenza</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                        data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input [(ngModel)]="altroGenitore.dataScadenzaDoc" type="text" class="form-control" name="dataScadenzaDoc"
+                             id="datascadenza" #dataScadenzaDoc placeholder="gg/mm/aaaa"
+                             style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+      </div>
+    </div>
+
+
+    <div class="row justify-content-between" *ngIf="genitorePiemontese">
+      <button [routerLink]="['/ricerca/genitore']"
+              class="btn btn-primary white-button col-8 col-md-3 col-lg-3">Indietro
+      </button>
+      <button (click)="continueCreatingUno()" [disabled]="proceedUno"
+              class="btn btn-primary blue-button col-8 col-md-3 col-lg-3">
+        Continua
+      </button>
+    </div>
+    <div class="row justify-content-between" *ngIf="!genitorePiemontese">
+      <button [routerLink]="['/ricerca/genitore']"
+              class="btn btn-primary white-button col-8 col-md-3 col-lg-3">Indietro
+      </button>
+      <button (click)="continueCreatingDue()" [disabled]="!canProceedDue()"
+              class="btn btn-primary blue-button col-8 col-md-3 col-lg-3">
+        Continua
+      </button>
+    </div>
+</div>

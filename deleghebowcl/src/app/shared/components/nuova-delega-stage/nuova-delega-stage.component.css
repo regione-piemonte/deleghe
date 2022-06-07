@@ -1,0 +1,21 @@
+.stage, .stage-not-active {
+  text-align: center;
+}
+
+.stage {
+  color: #026BB1;
+}
+
+.stage-circle, .stage-circle-not-active {
+  border: 2px solid #797979;
+  border-radius: 50%;
+  font-size: 22px;
+  height: 40px;
+  width: 40px;
+  margin: auto;
+}
+
+.stage-circle {
+  color: white;
+  background-color: #026BB1;
+}

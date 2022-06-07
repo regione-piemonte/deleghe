@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-1 stage">
+    <div class="stage-circle">{{numberOfActiveStage > 1 ? '✓' : '1'}}</div>
+    <div class="mt-2">{{stageNames[0]}}</div>
+  </div>
+  <div [ngClass]="{'col-4':stageNames.length == 3, 'col-8':stageNames.length == 2}" class="col-4">
+    <hr style="border: 2px solid #797979;"/>
+  </div>
+  <div class="col-1" [ngClass]="{'stage':numberOfActiveStage >= 2, 'stage-not-active':numberOfActiveStage < 2}">
+    <div [ngClass]="{'stage-circle':numberOfActiveStage >= 2, 'stage-circle-not-active':numberOfActiveStage < 2}">{{numberOfActiveStage > 2 ? '✓' : '2'}}</div>
+    <div class="mt-2">{{stageNames[1]}}</div>
+  </div>
+  <div *ngIf="stageNames.length == 3" class="col-4">
+    <hr style="border: 2px solid #797979;"/>
+  </div>
+  <div *ngIf="stageNames.length == 3" class="col-1" [ngClass]="{'stage':numberOfActiveStage >= 3, 'stage-not-active':numberOfActiveStage < 3}">
+    <div [ngClass]="{'stage-circle':numberOfActiveStage >= 3, 'stage-circle-not-active':numberOfActiveStage < 3}">{{numberOfActiveStage > 3 ? '✓' : '3'}}</div>
+    <div class="mt-2">{{stageNames[2]}}</div>
+  </div>
+</div>

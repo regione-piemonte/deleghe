@@ -1,0 +1,61 @@
+{
+  "deleghe": [
+    {
+      "nome": "xyz",
+      "cognome": "xyz",
+      "data_nascita": 1540281661667,
+      "comune_nascita": "TORINO",
+      "sesso": "F",
+      "uuid": "xyz-xyz-xyz-xyz-xyz",
+      "delegheServizi": [
+        {
+          "uuid": "xyz-xyz-xyz-xyz-xyz",
+          "codice_servizio": "xyz",
+          "data_inizio_delega": 1540281661667,
+          "data_fine_delega": 1571781599667,
+          "stato_delega": "ATTIVA"
+        }
+      ],
+      "codice_fiscale": "xyz",
+      "id_aura": null
+    },
+    {
+      "nome": "xyz",
+      "cognome": "xyz",
+      "data_nascita": 1540281661667,
+      "comune_nascita": "TORINO",
+      "sesso": "M",
+      "uuid": "xyz-xyz-xyz-xyz-xyz",
+      "delegheServizi": [
+        {
+          "uuid": "xyz-xyz-xyz-xyz-xyz",
+          "codice_servizio": "PTW",
+          "data_inizio_delega": 1540281661667,
+          "data_fine_delega": 1571781599667,
+          "stato_delega": "ATTIVA"
+        }
+      ],
+      "codice_fiscale": "xyz",
+      "id_aura": null
+    },
+    {
+      "nome": "xyz xyz",
+      "cognome": "xyz xyz",
+      "data_nascita": 1540281661667,
+      "comune_nascita": "TORINO",
+      "sesso": "M",
+      "uuid": "xyz-xyz-xyz-xyz-xyz",
+      "delegheServizi": [
+        {
+          "uuid": "xyz-xyz-xyz-xyz-xyz",
+          "codice_servizio": "PTW",
+          "data_inizio_delega": 1541784182187,
+          "data_fine_delega": 1573297199187,
+          "stato_delega": "ATTIVA"
+        }
+      ],
+      "codice_fiscale": "xyz",
+      "id_aura": null
+    }
+  ]
+}

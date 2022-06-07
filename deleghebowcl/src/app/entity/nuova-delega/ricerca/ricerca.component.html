@@ -1,0 +1,419 @@
+<div *ngIf="title">
+  <div class="scelta-row">
+    <div class="row justify-content-end">
+      <a [routerLink]="['/']">
+        <i class="fa fa-arrow-left"></i>
+        Home</a>
+    </div>
+    <div class="scelta-row-item">
+      <a [routerLink]="['/nuova-delega']">
+        <i class="fa fa-arrow-left"></i>
+        Scelta delega</a>
+    </div>
+    <div class="scelta-row-item">
+      <label class="scelta-title">
+        Nuova delega: {{title}}</label>
+    </div>
+
+    <div class="scelta-div">
+      <label for="fiscalCode" class="scelta-cod">Codice fiscale</label>
+        <input [(ngModel)]="fiscalCode" id="fiscalCode" type="text" class="scelta-input mr-2">
+        <small *ngIf="!fiscalCodeFormatOk && fiscalCode" class="text-danger">Errato formato del codice fiscale</small>
+    </div>
+
+  </div>
+
+  <div>
+    <label class="scelta-text-l">
+      Ai sensi del GDPR i tuoi accessi verranno tracciati e comunicati al cittadino previa sua richiesta</label>
+
+    <button class="cerca-button btn btn-primary"
+            (click)="ricerca(provenienza)">Cerca
+    </button>
+
+  </div>
+</div>
+
+
+<div class="container user-form" *ngIf="isUserNotFound">
+
+  <div class="row justify-content-end">
+    <label class="col-md-10" style="color: blue; font-weight: 500; font-size: 1.25rem">Hai cercato: {{workingCitizen.nome}} {{workingCitizen.cognome}}
+      Cod. Fiscale: {{fiscalCode}}</label>
+    <label tabindex="0" class="annulla-ricerca col">
+      <a style="cursor: pointer" role="button" tabindex="0" class="stretched-link" (click)="hideForm()">Annulla
+        ricerca X</a>
+    </label>
+  </div>
+
+  <div class="warn form-row" style="margin-right: 0; margin-left: 0;">
+    <div class="col-md-0">
+      <i class="fa fa-exclamation-triangle icon"> </i></div>
+    <div class="col-11 col-md-10 col-lg-10 col-xl-9">
+      <label class="warn-label">Il nominativo del cittadino che hai cercato <b>non è presente</b> nella Banca dati
+        Puoi inserirlo e procedere</label>
+    </div>
+  </div>
+
+
+  <div class="panel pb-5">
+    <div class="row mt-3 ml-3">
+      <strong style="font-size: 18px">E' necessario compilare tutti i campi</strong>
+    </div>
+
+    <form class="mx-4">
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label for="Nome">Nome</label>
+          <input [(ngModel)]="workingCitizen.nome" name="nome" type="text" class="form-control" id="Nome">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label for="Cognome">Cognome</label>
+          <input [(ngModel)]="workingCitizen.cognome" name="cognome" type="text" class="form-control" id="Cognome">
+        </div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label for="DataDiNascita">Data di nascita</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                  data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input [(ngModel)]="workingCitizen.data_nascita" name="data_nascita"
+                     type="text" class="form-control"
+                     id="DataDiNascita" #nascita placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="form-group col-md-5">
+          <label for="codice_fiscale">Codice fiscale</label>
+            <input [(ngModel)]="workingCitizen.codice_fiscale" name="fiscalCode" type="text" id="codice_fiscale"  class="form-control">
+            <small *ngIf="!fiscalCodeFormatNPOk && workingCitizen.codice_fiscale" class="text-danger">Errato formato del codice fiscale</small>
+        </div>
+
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5"  *ngIf="workingCitizen.isValid; else comuniCaricati">
+          <label for="luogoDiNascita">Luogo di nascita</label>
+          <input type="text" name="comune_nascita" [(ngModel)]="workingCitizen.comune_nascita" class="form-control" id="luogoDiNascita" (input)="onSearchChange($event.target.value)">
+        </div>
+
+        <ng-template #comuniCaricati>
+          <div class="form-group col-md-5">
+            <label for="luogoDiNascita">Luogo di nascita</label>
+            <select [(ngModel)]="workingCitizen.comune_nascita" class="form-control" name="comune_nascita" id="luogoDiNascita" >
+              <option *ngFor="let elencoCom of workingCitizen.elencoComuniCaricati" value="{{elencoCom.desc}}">{{elencoCom.desc}}</option>
+            </select>
+            <button class="btn btn-primary white-button" (click)="annullaRicercaComuni()" layout-align="end center">Annulla Ricerca</button>
+          </div>
+        </ng-template>
+
+        <div class="col-md-1"></div>
+
+        <div class="form-group col-md-5">
+          <label>Sesso</label><br>
+          <input type="radio" [(ngModel)]="workingCitizen.sesso" name="sesso" value="M"> M
+          <input type="radio" class="ml-5" [(ngModel)]="workingCitizen.sesso" name="sesso" value="F"> F
+        </div>
+
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label style="font-size: 18px">Inserisci documento di identità<br/></label>
+        </div>
+      </div>
+
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label>Tipo documento</label>
+        </div>
+
+      </div>
+
+
+      <div class="form-row">
+
+        <div class="form-group col-md-5">
+          <select [(ngModel)]="workingCitizen.tipoDocumento" name="tipoDocumento" class="form-control" id="selectForm">
+            <option value="" disabled>Seleziona tipo documento</option>
+            <option *ngFor="let tipodoc of elencoDescrizioneDocumento" value="{{tipodoc.descrizione}}">{{tipodoc.descrizione}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1"></div>
+
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label for="numero">
+            Numero documento identità</label>
+          <input [(ngModel)]="workingCitizen.numeroDocumento" name="numeroDocumento" type="text" class="form-control"
+                 id="numero">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label for="Rilasciato">Rilasciato da</label>
+          <input [(ngModel)]="workingCitizen.rilasciatoDa" name="rilasciatoDa" type="text" class="form-control"
+                 id="Rilasciato">
+        </div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label for="dataRilascio">Data rilascio</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                  data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input [(ngModel)]="workingCitizen.dataRilascio" name="dataRilascio"
+                     type="text" class="form-control"
+                     id="dataRilascio" #dataRilascio placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label for="dataScadenza">Data scadenza</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                  data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input [(ngModel)]="workingCitizen.dataScadenza" name="dataScadenza"
+                     type="text" class="form-control"
+                     id="dataScadenza" #dataScadenza placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4 justify-content-end">
+        <button [disabled]="!isSalvaEnabled" (click)="salva()" class="btn blue-button col-8 col-md-3 col-lg-3">Salva
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+
+<div class="container user-form" *ngIf="isUserInfoFilled">
+
+  <div class="row justify-content-end">
+    <label class="col-md-10" style="color: blue; font-weight: 500; font-size: 1rem">Hai inserito: {{workingCitizen.nome}} {{workingCitizen.cognome}}
+      Cod. Fiscale: {{workingCitizen.codice_fiscale}}</label>
+  </div>
+
+  <div class="panel pb-5">
+
+    <form class="mx-4">
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label>Nome</label><br/>
+          <strong>{{workingCitizen.nome}}</strong>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label>Cognome</label><br/>
+          <strong>{{workingCitizen.cognome}}</strong></div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label>Data di nascita</label><br/>
+          <strong>{{workingCitizen.data_nascita| date: 'dd.MM.yyyy'}}</strong>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="form-group col-md-5">
+          <label>Codice fiscale</label><br/>
+          <strong>{{workingCitizen.codice_fiscale}}</strong>
+        </div>
+      </div>
+
+
+      <div class="form-row mt-4">
+
+        <div class="form-group col-md-5">
+          <label>Luogo di nascita</label><br/>
+          <strong>{{workingCitizen.comune_nascita}}</strong>
+        </div>
+
+
+        <div class="col-md-1"></div>
+
+        <div class="form-group col-md-5">
+          <label>Sesso</label><br>
+          <strong>{{workingCitizen.sesso}}</strong>
+        </div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label style="font-size: 18px">Documento di identità<br/></label>
+        </div>
+      </div>
+
+
+      <div class="form-row">
+
+        <div class="form-group col-md-5">
+          <label>Tipo documento</label><br/>
+          <strong>{{workingCitizen.tipoDocumento}}</strong>
+        </div>
+
+        <div class="col-md-1"></div>
+
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label>
+            Numero documento identità</label><br/>
+          <strong>{{workingCitizen.numeroDocumento}}</strong>
+        </div>
+
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label>Rilasciato da</label><br/>
+          <strong>{{workingCitizen.rilasciatoDa}}</strong>
+        </div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-5">
+          <label>Data rilascio</label><br/>
+          <strong>{{workingCitizen.dataRilascio}}</strong>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="form-group col-md-5">
+          <label for="dataScadenza">Data scadenza</label><br/>
+          <strong>{{workingCitizen.dataScadenza}}</strong>
+        </div>
+      </div>
+
+      <div class="row mt-4 justify-content-end">
+        <button (click)="annulla()" class="btn blue-button col-8 col-md-3 col-lg-3">Annulla
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="row mt-4 justify-content-end">
+  <button *ngIf="isUserNotFound || isUserInfoFilled" [disabled]="!isUserInfoFilled"
+          class="cerca-button btn btn-primary"
+          (click)="createCitizen()">Conferma
+  </button>
+</div>
+
+
+<div class="container user-form" *ngIf="isDeleganteNotFound">
+
+  <div class="row justify-content-end">
+    <label class="col-md-10 table-label">Hai cercato: {{nome}} {{cognome}}
+      Cod. Fiscale: {{fiscalCode}}</label>
+    <label tabindex="0" class="annulla-ricerca col">
+      <a style="cursor: pointer" role="button" tabindex="0" class="stretched-link" (click)="hideAlert()">Annulla
+        ricerca X</a>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-1 attenzione-f"></div>
+    <div class="col-md-1 attenzione-s">
+      <i class="fa fa-exclamation-triangle icon-attenzione"> </i>
+    </div>
+    <div class="col-md-10 attenzione">
+      <label style="font-weight: 500;">ATTENZIONE</label><br/>
+      <label>Il nominativo del cittadino che hai cercato <b>non è presente</b> nella Banca dati</label><br/>
+      <label>Non essendo un cittadino residente in Piemonte: <b>non è possibile procedere con la
+        pratica.</b></label>
+    </div>
+    <div class="col-6 my-2">
+      <button [routerLink]="['/']" class="btn btn-primary white-button">
+        Torna alla home
+      </button>
+     </div>
+  </div>
+
+</div>
+
+
+<div class="container user-form" *ngIf="isTableShown">
+
+  <div class="row justify-content-end">
+    <label class="col-md-10 table-label" style="margin-left: 1%">Hai cercato: {{cognome}}</label>
+    <label tabindex="0" class="annulla-ricerca col">
+      <a style="cursor: pointer" role="button" tabindex="0" class="stretched-link" (click)="hideRisultati()">Annulla
+        ricerca X</a>
+    </label>
+  </div>
+
+  <div class="row">
+    <label class="col-md-3 table-label" style="margin-left: 1%">Risultati trovati: {{risultati}}</label>
+    <label tabindex="0" class="table-label col-6">
+      <label class="table-label">Scegli un nominativo e seleziona conferma</label>
+    </label>
+  </div>
+
+  <div style="margin-left: 2%; margin-right: 2%; margin-bottom: 2%; text-align: center">
+    <p-treeTable [value]="tableData" [paginator]="true" [rows]="18">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 30px;">ID
+          </th>
+          <th style="width: 50px;">Cognome
+          </th>
+          <th style="width: 50px;">Nome
+          </th>
+          <th style="width: 70px;">Codice Fiscale
+          </th>
+          <th style="width: 30px;">Sesso
+          </th>
+          <th style="width: 50px;">Data di nascita
+          </th>
+          <th style="width: 60px;">Сomune di nascita
+          </th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr style="cursor: pointer;" class="table-row" [ngClass]="{'selected-row': rowData.index === selectedInd}"
+            (click)="selectRow(rowData.index)">
+          <td>
+            <div style="display:flex; justify-content: center">
+              <span>{{rowData.id ? rowData.id : "_"}} </span>
+              <p-treeTableToggler [rowNode]="rowNode" *ngIf="rowNode.level == 0"></p-treeTableToggler>
+            </div>
+          </td>
+          <td>{{rowData.cognome}}</td>
+          <td>{{rowData.nome}}</td>
+          <td>{{rowData.codice_fiscale ? rowData.codice_fiscale : "_"}}</td>
+          <td>{{rowData.sesso ? rowData.sesso : "_"}}</td>
+          <td>{{rowData.data_nascita ? (rowData.data_nascita | date:'dd.MM.yyyy') : "_"}}</td>
+          <td>{{rowData.comuneNascita ? rowData.comuneNascita : "_"}}</td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
+  <div class="row mt-4 justify-content-end">
+    <button class="cerca-button btn btn-primary"
+            (click)="chooseCitizen()">Conferma
+    </button>
+  </div>
+</div>

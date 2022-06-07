@@ -1,0 +1,39 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<div *ngIf="citizen">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['/ricerca/tutore']">
+      <i class="fa fa-arrow-left"></i>
+      Ricerca tutore</a>
+  </div>
+
+  <h3 class="my-4">
+    Nuova delega: tutore {{citizen.cognome + " " + citizen.nome}}
+  </h3>
+
+  <div class="container">
+
+    <h4 class="my-4">
+      Quale dichiarazione scegli?
+    </h4>
+    <div class="container" style="margin-left: 5rem; margin-right: 5rem;">
+      <div class="row">
+        <div class="panel">
+          <a class="text-center" style="text-decoration: none;" [routerLink]="['./tutelato']">
+            <p class="p-label">Dichiarazione di tutela</p></a>
+
+        </div>
+        <div class="panel">
+          <a class="text-center" style="text-decoration: none;" [routerLink]="['./sostegno']">
+            <p class="p-label">Dichiarazione di amministrazione di sostegno</p></a>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

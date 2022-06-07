@@ -1,0 +1,264 @@
+<ng-container *ngIf="citizen">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['../figli']">
+      <i class="fa fa-arrow-left"></i>
+      Inserisci figlio/figli
+    </a>
+  </div>
+
+
+  <h3 class="my-4">
+    Nuova delega: genitore 1 {{citizen.nome + " " + citizen.cognome}}
+  </h3>
+
+  <nuova-delega-stage [stageNames]="['Dichiarazione altro genitore', 'Figlio/figli', 'Riepilogo']"
+                      [numberOfActiveStage]="3"></nuova-delega-stage>
+
+
+  <div class="panel">
+    <a class="pull-right mr-3" style="text-decoration: none"
+       [routerLink]="['/nuova-delega','genitore', this.fiscalCode]">
+
+    </a>
+
+    <form action="#">
+      <h4 class="m-3 mt-1">Dati del genitore n 1</h4>
+      <img *ngIf="newDichiarazione.citizen.sesso === 'F'"
+           src="assets/img/user/iconadonna.png"/>
+
+      <img *ngIf="newDichiarazione.citizen.sesso === 'M'"
+           src="assets/img/user/iconauomo.png"/>
+
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Nome</strong>
+          <span class="col-12">{{newDichiarazione.citizen.nome}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Cognome</strong>
+          <span class="col-12">{{newDichiarazione.citizen.cognome}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Data di nascita</strong>
+          <span class="col-12">{{newDichiarazione.citizen.data_nascita| date: 'dd.MM.yyyy'}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Codice fiscale</strong>
+          <span class="col-12">{{newDichiarazione.citizen.codice_fiscale}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Comune di nascita</strong>
+          <span class="col-12">{{newDichiarazione.citizen.comune_nascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Sesso</strong>
+          <span class="col-12">{{newDichiarazione.citizen.sesso === 'M' ? 'Maschio' : "Femmina"}}</span>
+        </div>
+      </div>
+
+      <div class="mt-4"  *ngIf="newDichiarazione.citizen.numeroDocumento">
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Tipo documento</strong>
+            <span class="col-12">{{newDichiarazione.citizen.tipoDocumento}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Numero documento</strong>
+            <span class="col-12">{{newDichiarazione.citizen.numeroDocumento}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Rilasciato da</strong>
+            <span class="col-12">{{newDichiarazione.citizen.rilasciatoDa}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data rilascio</strong>
+            <span class="col-12">{{newDichiarazione.citizen.dataRilascio  | date: 'dd.MM.yyyy'}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data scadenza</strong>
+            <span class="col-12">{{newDichiarazione.citizen.dataScadenza | date: 'dd.MM.yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <ng-container *ngIf="newDichiarazione.isAltroGenitore">
+    <div *ngFor="let altroGenitore of newDichiarazione.altroGenitore; let i = index" class="panel">
+      <a class="pull-right mr-3" style="text-decoration: none"
+         [routerLink]="['/nuova-delega', 'genitore', this.fiscalCode]">
+
+      </a>
+
+      <form action="#">
+        <h4 class="m-3 mt-1">Dati del genitore n {{i+2}}</h4>
+        <img *ngIf="altroGenitore.sesso === 'F'"
+             src="assets/img/user/iconadonna.png"/>
+
+        <img *ngIf="altroGenitore.sesso === 'M'"
+             src="assets/img/user/iconauomo.png"/>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Nome</strong>
+            <span class="col-12">{{altroGenitore.nome}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Cognome</strong>
+            <span class="col-12">{{altroGenitore.cognome}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data di nascita</strong>
+            <span class="col-12">{{altroGenitore.data_nascita  | date: 'dd.MM.yyyy'}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Codice fiscale</strong>
+            <span class="col-12">{{altroGenitore.codice_fiscale}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Comune di nascita</strong>
+            <span class="col-12">{{altroGenitore.comune_nascita}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Sesso</strong>
+            <span class="col-12">{{altroGenitore.sesso === 'M' ? 'Maschio' : "Femmina"}}</span>
+          </div>
+        </div>
+
+
+      <div class="mt-4"  *ngIf="altroGenitore.nrodocumento">
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Tipo documento</strong>
+            <span class="col-12">{{altroGenitore.tipoDocumento}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Numero documento</strong>
+            <span class="col-12">{{altroGenitore.nrodocumento}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Rilasciato da</strong>
+            <span class="col-12">{{altroGenitore.rilasciato}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data rilascio</strong>
+            <span class="col-12">{{altroGenitore.data_rilascio  | date: 'dd.MM.yyyy'}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data scadenza</strong>
+            <span class="col-12">{{altroGenitore.dataScadenzaDoc | date: 'dd.MM.yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+
+
+      </form>
+    </div>
+  </ng-container>
+
+
+  <div class="panel" *ngFor="let minore of newDichiarazione.tutelatoList; let i = index">
+
+    <a class="pull-right mr-3" style="text-decoration: none"
+       [routerLink]="['../figli']">
+
+    </a>
+
+    <form action="#">
+      <h4 class="m-3 mt-1">Dati del minore n {{i + 1}}</h4>
+
+      <img *ngIf="minore.info.sesso === 'F' && false"
+           src="assets/img/user/girlchild.png"/>
+
+      <img *ngIf="minore.info.sesso === 'M' && false"
+           src="assets/img/user/boychild.png"/>
+
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Nome</strong>
+          <span class="col-12">{{minore.info.nome}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Cognome</strong>
+          <span class="col-12">{{minore.info.cognome}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Data di nascita</strong>
+          <span class="col-12">{{minore.info.data_nascita  | date: 'dd.MM.yyyy'}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Codice fiscale</strong>
+          <span class="col-12">{{minore.info.codice_fiscale}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Comune di nascita</strong>
+          <span class="col-12">{{minore.info.comune_nascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Sesso</strong>
+          <span class="col-12">{{minore.info.sesso === 'M' ? 'Maschio' : "Femmina"}}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+  <div class="panel">
+    <form action="#">
+      <h4 class="m-3 mt-1">Documenti allegati</h4>
+       <div class="row justify-content-between">
+        <div style="margin-right: 20px;">
+          <label style="user-select: none; margin-left: 20px;" for="agreement">Visualizza e stampa informativa privacy:</label>
+            <a href="{{pdfInformativa}}" target="_blank">
+              <img style="width: 70px; margin-left: 20px;" id="u28_img" class="img " src="assets/img/user/u28.png">
+            </a>
+        </div>
+       </div>
+    </form>
+  </div>
+  <div class="panel">
+    <form action="#">
+      <h4 class="m-3 mt-1">Nota per operatore</h4>
+       <div class="row justify-content-between">
+        <div style="margin-left: 20px;">
+          <input [(ngModel)]="isAgree" name="agreementPushed" type="checkbox" id="agreement"/>
+          <label style="user-select: none" for="agreement">Io {{nomeOperatore}} {{cognomeOperatore}}, dichiaro di aver verificato l'identità del cittadino attraverso l'esibizione di un documento d'identità e della tessera sanitaria.
+            </label>
+        </div>
+       </div>
+    </form>
+  </div>
+
+  <div class="row justify-content-between mt-4 mx-3">
+    <div class="col-4">
+      <button class="btn btn-primary white-button" [routerLink]="['../figli']">Indietro</button>
+    </div>
+    <div class="col-4">
+      <button [disabled]="!isAgree" class="btn btn-primary blue-button" (click)="continua()">Continua
+      </button>
+    </div>
+  </div>
+
+</ng-container>
+
+

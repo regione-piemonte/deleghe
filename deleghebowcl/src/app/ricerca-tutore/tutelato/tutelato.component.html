@@ -1,0 +1,139 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<div *ngIf="citizen">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['../']">
+      <i class="fa fa-arrow-left"></i>
+      Scegli dichiarazione</a>
+  </div>
+  <h3 class="my-4">Nuova delega - Dichiarazione di Tutela: tutore {{citizen.nome + " " + citizen.cognome}}</h3>
+
+  <nuova-delega-stage [stageNames]="['Tutelato',  'Riepilogo']"
+                      [numberOfActiveStage]="1"></nuova-delega-stage>
+
+
+
+  <div class="panel pb-5" *ngFor="let tutelato of newDichiarazione.tutelatoList; let i = index">
+    <div class="row mt-3 ml-3">
+      <label class="select-label">Dati del soggetto tutelato {{i+1}}</label>
+    </div>
+
+      <div class="row mt-4">
+        <div class="form-group col-md-6">
+          <label for="Nome-{{i}}" class="label">Nome</label>
+          <input type="text" name="nome-{{i}}" [(ngModel)]="tutelato.nome" class="form-control" id="Nome-{{i}}">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="Cognome-{{i}}" class="label">Cognome</label>
+          <input type="text" name="cognome-{{i}}" [(ngModel)]="tutelato.cognome" class="form-control" id="Cognome-{{i}}">
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="form-group col-md-6">
+          <label for="DataDiNascita-{{i}}" class="label">Data di nascita</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input type="text" class="form-control" name="datanasBen-{{i}}"
+                     id="DataDiNascita-{{i}}" #dataNascita placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-6" *ngIf="tutelato.isValid; else comuniCaricati">
+          <label for="Comune-{{i}}" class="label">Comune di nascita o Stato di nascita
+            <span style="color: grey; font-size: 16px">(se straniero)</span>
+          </label>
+          <input type="text" name="cumuneDiNascita-{{i}}" [(ngModel)]="tutelato.cumune_nascita" class="form-control" id="Comune-{{i}}" #comuneNascita (input)="onSearchChange($event.target.value, i)">
+        </div>
+        <ng-template #comuniCaricati>
+          <div class="form-group col-md-6">
+            <label for="Comune-{{i}}">Comune di nascita o Stato di nascita
+              <span style="color: grey; font-size: 16px">(se straniero)</span>
+            </label>
+            <select [(ngModel)]="tutelato.cumune_nascita" class="form-control" name="cumuneDiNascita-{{i}}" id="Comune-{{i}}" #comuneNascita>
+              <option *ngFor="let elencoCom of tutelato.elencoComuni" value="{{elencoCom.desc}}">{{elencoCom.desc}}</option>
+            </select>
+            <button class="btn btn-primary white-button" (click)="annulla(i)" layout-align="end center">Annulla Ricerca</button>
+          </div>
+        </ng-template>
+
+      </div>
+      <div class="row mt-4">
+        <div class="form-group col-md-6">
+          <label class="label">Sesso</label><br>
+          <input type="radio" name="Sesso-{{i}}" value="M" [(ngModel)]="tutelato.sesso" id="macho-{{i}}" class="mr-2"> <label for="macho-{{i}}">maschio</label>
+          <input type="radio" name="Sesso-{{i}}" value="F" [(ngModel)]="tutelato.sesso" id="fem-{{i}}" class="ml-5 mr-2"> <label for="fem-{{i}}">femmina</label>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="CodiceFiscale-{{i}}" class="label">Codice fiscale</label>
+          <input type="text" class="form-control" name="codiceFiscale-{{i}}" [(ngModel)]="tutelato.codice_fiscale" id="CodiceFiscale-{{i}}">
+        </div>
+      </div>
+  </div>
+
+  <div class="row panel">
+    <div class="form-group my-4 mx-4" style="width:100%">
+      <div>
+        <label class="select-label">Dati atto formale di nomina rilasciato dal giudice tutelare</label>
+      </div>
+
+      <div class="row justify-content-between my-2">
+        <div class="form-group col-md-6">
+          <label for="numeroDocumento" class="label">Numero documento</label>
+          <input type="text" name="numeroDocumento" [(ngModel)]="newDichiarazione.numeroDocumento" class="form-control" id="numeroDocumento">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="autorita" class="label">Autorità rilasciante</label>
+          <input type="text" name="autorita" [(ngModel)]="newDichiarazione.autorita" class="form-control" id="autorita">
+        </div>
+      </div>
+
+
+
+      <div class="row my-2">
+        <div class="form-group col-md-6">
+          <label for="dataInizio" class="label">Data inizio tutela</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input type="text" class="form-control" name="datanasBen"
+                     id="dataInizio" #dataInizio placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="dataFine" class="label">Data fine tutela</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input type="text" class="form-control" name="datanasBen"
+                     id="dataFine" #dataFine placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <strong class="text-danger" style="font-size: 22px" *ngIf="newDichiarazione.dichiarazioneTestFailed">Cittadino non trovato</strong>
+  <div class="row justify-content-between">
+    <button [routerLink]="['../']"
+            class="btn btn-primary white-button col-8 col-md-3 col-lg-3">Indietro
+    </button>
+    <button [disabled]="!canProceed" (click)="toRiepilogo()"
+            class="btn btn-primary blue-button col-8 col-md-3 col-lg-3">Continua
+    </button>
+  </div>
+</div>

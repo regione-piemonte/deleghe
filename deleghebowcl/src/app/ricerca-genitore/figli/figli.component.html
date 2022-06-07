@@ -1,0 +1,108 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen || !newDichiarazione">
+  <p-progressSpinner class="my-5"></p-progressSpinner>
+</div>
+
+<div *ngIf="citizen && newDichiarazione">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['../']">
+      <i class="fa fa-arrow-left"></i>
+      Dichiarazione</a>
+  </div>
+
+  <h3 class="my-4">
+    Nuova delega: genitore 1 {{citizen.cognome + " " + citizen.nome}}
+  </h3>
+
+  <nuova-delega-stage [stageNames]="['Dichiarazione altro genitore', 'Figlio/figli', 'Riepilogo']"
+                      [numberOfActiveStage]="2"></nuova-delega-stage>
+
+
+
+
+  <div class="my-3">
+    <p-messages [(value)]="msgs"></p-messages>
+  </div>
+
+  <div class="panel mt-5 pl-3 pb-5" *ngFor="let tutelato of newDichiarazione.tutelatoList; let i = index" r>
+    <h4 class="my-4 mr-5">
+      Dati del minore {{i + 1}}
+    </h4>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="codiceFiscale" style="font-weight: 500">Codice fiscale</label>
+        <input type="text" name="searchFiscalCode" [(ngModel)]="tutelato.searchFiscalCode" class="form-control" id="codiceFiscale">
+        <small *ngIf="!searchFiscalCodeFormatOk[i] && tutelato.searchFiscalCode" class="text-danger">Errato formato del codice fiscale</small>
+
+      </div>
+      <div class="col-3" style="margin-top: auto">
+
+        <button type="submit" class="btn btn-primary" style="width: inherit" (click)="findFigli(i)">Cerca</button>
+      </div>
+    </div>
+
+    <div *ngIf="tutelato.nonTrovato !== undefined">
+      <div *ngIf="!tutelato.nonTrovato" class="mt-4">
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Nome</strong>
+            <span class="col-12">{{tutelato.info.nome}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Cognome</strong>
+            <span class="col-12">{{tutelato.info.cognome}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Data di nascita</strong>
+            <span class="col-12">{{tutelato.info.data_nascita | date: 'dd.MM.yyyy'}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Codice fiscale</strong>
+            <span class="col-12">{{tutelato.info.codice_fiscale}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Luogo di nascita</strong>
+            <span class="col-12">{{tutelato.info.comune_nascita}}</span>
+          </div>
+          <div class="col-12 row col-sm-6">
+            <strong class="col-12">Sesso</strong>
+            <span class="col-12">{{tutelato.info.sesso}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tutelato.nonTrovato" class="my-4 mx-5">
+        <div class="row alert alert-danger minore-non-trovato justify-content-center" role="alert">
+          <div class="col-12 my-2">
+            Il nominativo del minore che hai cercato non è presente nella Banca dati
+          </div>
+          <div class="col-12 my-2">
+            NON E' POSSIBILE COMPLETARE LA PRATICA
+          </div>
+          <div class="col-6 my-2">
+            <button [routerLink]="['/']" class="btn btn-primary white-button">
+              Torna alla home
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between">
+    <button [routerLink]="['../']"
+            class="btn btn-primary white-button col-8 col-md-3 col-lg-3">Indietro
+    </button>
+    <button (click)="continueCreating()" [disabled]="!canProceed()"
+            class="btn btn-primary blue-button col-8 col-md-3 col-lg-3">
+      Continua
+    </button>
+  </div>
+
+</div>

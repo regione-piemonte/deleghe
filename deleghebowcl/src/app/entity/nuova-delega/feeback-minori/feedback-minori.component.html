@@ -1,0 +1,45 @@
+<div class="main-div">
+  <div class="inner-div">
+    <h3>
+      <span class="ml-2">Nuova delega</span>
+    </h3>
+
+    <div style="display: flex; color: white; width: 100%; margin-bottom: 35px">
+      <div class="icon-div" [ngStyle]="{'background-color':isSuccessfullCreated ? 'rgba(30, 167, 62, 1)' : '#FE2C2D'}">
+        <fa-icon *ngIf="isSuccessfullCreated" [icon]="checkCircle"></fa-icon>
+        <fa-icon *ngIf="!isSuccessfullCreated" [icon]="timesCircle"></fa-icon>
+      </div>
+      <div class="text-div" [ngStyle]="{'background-color': isSuccessfullCreated ? 'rgba(33, 186, 69, 1)' : '#FF7374'}">
+        <p *ngIf="isSuccessfullCreated">
+          La richiesta di delega è stata compilata correttamente.
+          Numero pratica {{numeroPratica}} del {{delDate | date: 'dd.MM.yyyy'}}
+        </p>
+        <p *ngIf="!isSuccessfullCreated">
+          ATTENZIONE! Si è verificato un errore.<br>
+          La richiesta di delega non è stata compilata correttamente.
+        </p><br>
+        <ng-container *ngIf="!isSuccessfullCreated">
+          Motivi:<br>
+          <span>
+            <strong>{{codiceErrore}}</strong> - <span>{{descrizioneErrore}}</span><br>
+          </span>
+        </ng-container>
+
+      </div>
+    </div>
+
+    <div class="row mt-4 justify-content-between mx-3">
+      <button class="white-button btn-outline-primary" [routerLink]="['/']">
+        Torna alla home
+      </button>
+
+      <button *ngIf="bottoneAttivo" (click)="printPrimaFase(passaggioUuid,numeroPratica)" class="white-button btn-outline-primary">
+        Stampa
+      </button>
+      <button class="blue-button btn-outline-primary"
+              [routerLink]="['/nuova-delega']">
+        Nuova dichiarazione/Nuova delega
+      </button>
+    </div>
+  </div>
+</div>

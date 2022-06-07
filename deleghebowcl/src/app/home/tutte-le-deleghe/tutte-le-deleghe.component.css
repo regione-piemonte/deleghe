@@ -1,0 +1,19 @@
+.avatar {
+  max-width: 33px;
+  max-height: 40px;
+  position: relative;
+  margin-left: 6px;
+}
+
+.block-image {
+  width: 40px;
+  position: absolute;
+  z-index: 2;
+}
+
+.nome-cognome {
+  position: relative;
+}
+.grey-row {
+  background-color: #f2f2f2!important;
+}

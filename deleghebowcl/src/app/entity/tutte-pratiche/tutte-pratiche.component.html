@@ -1,0 +1,521 @@
+<div>
+  <div>
+    <a style="text-decoration: none" [routerLink]="['/']">
+      <i class="fa fa-arrow-left"></i>
+      Home</a>
+  </div>
+
+  <h3 class="my-4">
+    Dettaglio delega
+  </h3>
+
+  <div class="row my-5 justify-content-center" *ngIf="!delega">
+    <p-progressSpinner class="my-5" ></p-progressSpinner>
+  </div>
+
+
+  <div class="my-3">
+    <p-messages [(value)]="msgs"></p-messages>
+  </div>
+
+  <div class="panel" *ngIf="delega">
+    <form action="#">
+
+
+      <div class="panel">
+          <h4 class="m-3 mt-1">Delegante</h4>
+          <div class="panel-container">
+            <div style="width: 100%;">
+              <div class="row" style="width: 100%;">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Nome</strong>
+                  <span class="col-12">{{delega.delegante.nome}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Cognome</strong>
+                  <span class="col-12">{{delega.delegante.cognome}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="m-3 mt-1">Delegato</h4>
+          <div class="panel-container">
+
+
+            <div style="width: 100%;">
+              <div class="row" style="width: 100%;">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Nome</strong>
+                  <span class="col-12">{{delega.delegato.nome}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Cognome</strong>
+                  <span class="col-12">{{delega.delegato.cognome}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Data di nascita</strong>
+                  <span class="col-12">{{delega.delegato.data_nascita | date: 'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Comune di nascita</strong>
+                  <span class="col-12">{{delega.delegato.comune_nascita}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Sesso</strong>
+                  <span class="col-12">{{delega.delegato.sesso}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Codice fiscale</strong>
+                  <span class="col-12">{{delega.delegato.codice_fiscale}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div *ngIf="attivaAdulto">
+
+
+
+        <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let service of serviceList ; let i = index">
+
+          <div class=" col-12 row col-sm-2" style="user-select: none">
+            <span class="col-12 material-switch" style="color: grey">
+
+                <span *ngIf="service.prevStato === 'ATTIVA' && service.checkboxState">
+                  <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 40px; color: green"></i><br>
+                  Attivo<br>
+                </span>
+
+                <span *ngIf="service.prevStato === 'RIFIUTATA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                  Rinuncia
+                </span>
+
+                <span *ngIf="service.prevStato === 'REVOCATA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                  Revocato
+                </span>
+
+                <span *ngIf="service.prevStato === 'DAATTIVARE' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px"></i><br>
+                  Da attivare
+                </span>
+
+                <span style="color: grey" *ngIf="service.prevStato === 'SCADUTA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                Scaduto il<br>
+                  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+                </span>
+
+                <span style="color: grey" *ngIf="service.prevStato === 'IN_SCADENZA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                In scadenza il<br>
+                  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+                </span>
+            </span>
+          </div>
+
+          <div class="col-12 row col-sm-5">
+
+            <span class="col-12" style="font-weight: bold;">{{service.description_servizio | uppercase}}</span>
+                  <p hidden>{{service.codice_servizio}}</p>
+                  <div>
+                      <label>ATTIVAZIONE
+                        <input [(ngModel)]="service.checkAttiva"  name="ATTIVA-{{service.uuid}}"
+                          type="checkbox" id="ATTIVA-{{service.uuid}}"
+                          (change)="attivaDisattivaNeutro(service);"  />
+                      </label>
+                  </div>
+                  <div style="width:10px;float: left;"></div>
+                  <div>
+                      <label>REVOCA
+                        <input [(ngModel)]="service.checkRevoca" name="REVOCA-{{service.uuid}}"
+                          type="checkbox" id="REVOCA-{{service.uuid}}" [disabled]="service.disabilitaRevoca"/>
+                      </label>
+                  </div>
+                  <div style="width:10px;float: left;"></div>
+
+          </div>
+
+          <div class="col-12 row col-sm-5">
+            <span class="col-12">
+              <span style="color: #0066FF; font-weight: 500" *ngIf="service.checkboxState">
+                Valida dal {{service.data_inizio_delega | date: 'dd.MM.yyyy'}}
+                al  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+              </span>
+            </span>
+
+              <div class="col-6">
+                  <label for="dal-{{service.uuid}}" style="color: #0066FF; font-weight: 500">Nuova validità
+                    dal</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen"
+                            id="dal-{{service.uuid}}" #dal value="{{dateToday}}"
+                            style="border-right-width: 1px; padding-right: 12px;" disabled>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-6">
+                  <label for="al-{{service.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{service.dataAlMassima}})</label>
+                  <div class="d-md-block">
+                    <div class="input-group input-append date"
+                          data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                      <span class="input-group-addon add-on"></span>
+                      <input type="text" class="form-control" name="datanasBen-service-al-{{service.uuid}}"
+                            id="al-{{service.uuid}}" #al placeholder="gg/mm/aaaa"
+                            style="border-right-width: 1px; padding-right: 12px;"
+                            [(ngModel)]="service.data_fine_delega_new_text" [disabled]="service.disabilitaData">
+                    </div>
+                  </div>
+              </div>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="service.isNullDate">
+                Inserire entrambe le date solo se si attiva o rinnova il servizio
+              </span>
+
+              <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="service.isStartDateBigger">
+                Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilare la data correttamente
+              </span>
+
+          </div>
+
+        </div>
+
+        <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey">
+          <div class="row">
+            <div class="col-md-12"><h4>Servizi legati al Fascicolo Sanitario</h4></div>
+
+          </div>
+        </div>
+
+
+        <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let serviceFse of serviceListFSE ; let i = index">
+
+              <div class=" col-12 row col-sm-2" style="user-select: none">
+                <span class="col-12 material-switch" style="color: grey">
+
+                    <span *ngIf="serviceFse.prevStato === 'ATTIVA' && serviceFse.checkboxState">
+                      <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 40px; color: green"></i><br>
+                      Attivo<br>
+                    </span>
+
+                    <span *ngIf="serviceFse.prevStato === 'RIFIUTATA' && serviceFse.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                      Rinuncia
+                    </span>
+
+                    <span *ngIf="serviceFse.prevStato === 'REVOCATA' && serviceFse.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                      Revocato
+                    </span>
+
+                    <span *ngIf="serviceFse.prevStato === 'DAATTIVARE' && serviceFse.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px"></i><br>
+                      Da attivare
+                    </span>
+
+                    <span style="color: grey" *ngIf="serviceFse.prevStato === 'SCADUTA' && serviceFse.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                    Scaduto il<br>
+                      {{serviceFse.data_fine_delega | date: 'dd.MM.yyyy'}}
+                    </span>
+
+                    <span style="color: grey" *ngIf="serviceFse.prevStato === 'IN_SCADENZA' && serviceFse.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                    In scadenza il<br>
+                      {{serviceFse.data_fine_delega | date: 'dd.MM.yyyy'}}
+                    </span>
+                </span>
+              </div>
+
+              <div class="col-12 row col-sm-5">
+                <span class="col-12" style="font-weight: bold;">{{serviceFse.description_servizio | uppercase}}</span>
+                      <p hidden>{{serviceFse.codice_servizio}}</p>
+                    <div>
+                        <label>ATTIVAZIONE
+                          <input [(ngModel)]="serviceFse.checkAttiva"  name="ATTIVA-{{serviceFse.uuid}}" type="checkbox" id="ATTIVA-{{serviceFse.uuid}}" disabled/>
+                        </label>
+                    </div>
+                    <div style="width:10px;float: left;"></div>
+                    <div>
+                        <label>REVOCA
+                          <input [(ngModel)]="serviceFse.checkRevoca" name="REVOCA-{{serviceFse.uuid}}" type="checkbox" id="REVOCA-{{serviceFse.uuid}}" (click)="revocaTuttiFSE()" [disabled]="serviceFse.disabilitaRevoca"/>
+                        </label>
+                    </div>
+                    <div style="width:10px;float: left;"></div>
+              </div>
+
+              <div class="col-12 row col-sm-5">
+                <span class="col-12">
+                  <span style="color: #0066FF; font-weight: 500" *ngIf="serviceFse.checkboxState">
+                    Valida dal {{serviceFse.data_inizio_delega | date: 'dd.MM.yyyy'}}
+                    al  {{serviceFse.data_fine_delega | date: 'dd.MM.yyyy'}}
+
+                  </span>
+                </span>
+
+                  <div class="col-6">
+                      <label for="dal-{{serviceFse.uuid}}" style="color: #0066FF; font-weight: 500">Nuova validità
+                        dal</label>
+                      <div class="d-md-block">
+                        <div class="input-group input-append date"
+                              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                          <span class="input-group-addon add-on"></span>
+                          <input type="text" class="form-control" name="datanasBen"
+                                id="dal-{{serviceFse.uuid}}" #dal value="{{dateToday}}"
+                                style="border-right-width: 1px; padding-right: 12px;" disabled>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-6">
+                      <label for="al-{{serviceFse.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{serviceFse.dataAlMassima}})</label>
+                      <div class="d-md-block">
+                        <div class="input-group input-append date"
+                              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                          <span class="input-group-addon add-on"></span>
+                          <input type="text" class="form-control" name="datanasBen"
+                                id="al-{{serviceFse.uuid}}" #al value="{{dateOneYear}}"
+                                style="border-right-width: 1px; padding-right: 12px;">
+                        </div>
+                      </div>
+                  </div>
+
+
+                  <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceFse.isNullDate">
+                    Inserire entrambe le date se si attiva o si rinnova il servizio
+                  </span>
+
+                  <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceFse.isStartDateBigger">
+                    Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilate la data correttamente
+                  </span>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <h5>Cosa può fare il delegato</h5>
+                      <div *ngIf="serviceFse.fraseDebole !== null" >
+                        <i *ngIf="serviceFse.deboleAttivo" class="fa fa-check-circle" aria-hidden="true" style="font-size: 20px; color: green"></i>
+                        <div style="width:10px;float: left;"></div>
+                        <label>{{serviceFse.fraseDebole}}
+                          <input [(ngModel)]="serviceFse.debole" name="DEBOLE-{{serviceFse.uuid}}" type="checkbox" id="DEBOLE-{{serviceFse.uuid}}"  (click)="selezionaDelegheDeboli()"/>
+                        </label>
+                      </div>
+
+                      <div *ngIf="serviceFse.fraseForte !== null" >
+                        <i *ngIf="serviceFse.forteAttivo" class="fa fa-check-circle" aria-hidden="true" style="font-size: 20px; color: green"></i>
+                        <div style="width:10px;float: left;"></div>
+                        <label>{{serviceFse.fraseForte}}
+                          <input [(ngModel)]="serviceFse.forte" name="FORTE-{{serviceFse.uuid}}" type="checkbox" id="FORTE-{{serviceFse.uuid}}" (click)="selezionaDelegheForti()"/>
+                        </label>
+                      </div>
+                </div>
+              </div>
+
+        </div>
+
+        <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let serviceSenzaGrado of serviceListSenzaGrado ; let i = index">
+
+              <div class=" col-12 row col-sm-2" style="user-select: none">
+                <span class="col-12 material-switch" style="color: grey">
+
+                    <span *ngIf="serviceSenzaGrado.prevStato === 'ATTIVA' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 40px; color: green"></i><br>
+                      Attivo<br>
+                    </span>
+
+                    <span *ngIf="serviceSenzaGrado.prevStato === 'RIFIUTATA' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                      Rinuncia
+                    </span>
+
+                    <span *ngIf="serviceSenzaGrado.prevStato === 'REVOCATA' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                      Revocato
+                    </span>
+
+                    <span *ngIf="serviceSenzaGrado.prevStato === 'DAATTIVARE' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px"></i><br>
+                      Da attivare
+                    </span>
+
+                    <span style="color: grey" *ngIf="serviceSenzaGrado.prevStato === 'SCADUTA' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                    Scaduto il<br>
+                      {{serviceSenzaGrado.data_fine_delega | date: 'dd.MM.yyyy'}}
+                    </span>
+
+                    <span style="color: grey" *ngIf="serviceSenzaGrado.prevStato === 'IN_SCADENZA' && serviceSenzaGrado.checkboxState">
+                      <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                    In scadenza il<br>
+                      {{serviceSenzaGrado.data_fine_delega | date: 'dd.MM.yyyy'}}
+                    </span>
+                </span>
+              </div>
+
+              <div class="col-12 row col-sm-5">
+                <span class="col-12" style="font-weight: bold;">{{serviceSenzaGrado.description_servizio | uppercase}}</span>
+                    <p hidden>{{serviceSenzaGrado.codice_servizio}}</p>
+                    <div>
+                      <label>ATTIVAZIONE
+                        <input [(ngModel)]="serviceSenzaGrado.checkAttivaForti"  name="ATTIVA-{{serviceSenzaGrado.uuid}}" type="checkbox" id="ATTIVA-{{serviceSenzaGrado.uuid}}" (click)="attivaDisattivaNeutroSenzaGrado(serviceSenzaGrado.uuid)"/>
+                      </label>
+                    </div>
+                    <div style="width:10px;float: left;"></div>
+                    <div>
+                        <label>REVOCA
+                          <input [(ngModel)]="serviceSenzaGrado.checkRevoca" name="REVOCA-{{serviceSenzaGrado.uuid}}" type="checkbox" id="REVOCA-{{serviceSenzaGrado.uuid}}" [disabled]="serviceSenzaGrado.disabilitaRevoca"/>
+                        </label>
+                    </div>
+                    <div style="width:10px;float: left;"></div>
+              </div>
+
+              <div class="col-12 row col-sm-5">
+                <span class="col-12">
+                  <span style="color: #0066FF; font-weight: 500" *ngIf="serviceSenzaGrado.checkboxState">
+                    Valida dal {{serviceSenzaGrado.data_inizio_delega | date: 'dd.MM.yyyy'}}
+                    al  {{serviceSenzaGrado.data_fine_delega | date: 'dd.MM.yyyy'}}
+
+                  </span>
+                </span>
+
+                  <div class="col-6">
+                      <label for="dal-{{serviceSenzaGrado.uuid}}" style="color: #0066FF; font-weight: 500">Nuova validità
+                        dal</label>
+                      <div class="d-md-block">
+                        <div class="input-group input-append date"
+                              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                          <span class="input-group-addon add-on"></span>
+                          <input type="text" class="form-control" name="datanasBen"
+                                id="dal-{{serviceSenzaGrado.uuid}}" #dal value="{{dateToday}}"
+                                style="border-right-width: 1px; padding-right: 12px;" disabled>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-6">
+                      <label for="al-{{serviceSenzaGrado.uuid}}" style="color: #0066FF; font-weight: 500">al (max:{{serviceSenzaGrado.dataAlMassima}})</label>
+                      <div class="d-md-block">
+                        <div class="input-group input-append date"
+                              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+                          <span class="input-group-addon add-on"></span>
+                          <input type="text" class="form-control" name="datanasBen"
+                                id="al-{{serviceSenzaGrado.uuid}}" #al placeholder="gg/mm/aaaa"
+                                style="border-right-width: 1px; padding-right: 12px;" >
+                        </div>
+                      </div>
+                  </div>
+
+                  <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceSenzaGrado.isNullDate">
+                    Inserire entrambe le date se si attiva o modifica il servizio o le sua delega
+                  </span>
+
+                  <span style="margin-left: 15px; margin-top: 5px" class="text-danger" *ngIf="serviceSenzaGrado.isStartDateBigger">
+                    Attenzione! La data di inizio è successiva alla data di fine! Per cortesia compilate la data correttamente
+                  </span>
+
+              </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <h5>Cosa può fare il delegato</h5>
+                        <div>
+                          <i *ngIf="serviceSenzaGrado.forteAttivo" class="fa fa-check-circle" aria-hidden="true" style="font-size: 20px; color: green"></i>
+                          <div style="width:10px;float: left;"></div>
+                          <label>{{serviceSenzaGrado.fraseForte}}
+
+                          </label>
+                        </div>
+                  </div>
+                </div>
+
+        </div>
+
+        <div id="divCheckbox" style="display: none;" *ngFor="let serviceNascosti of serviceListNascosti ; let i = index">
+          <p hidden>{{serviceNascosti.codice_servizio}}</p>
+          <p hidden>{{serviceNascosti.data_inizio_delega}}</p>
+          <p hidden>{{serviceNascosti.data_fine_delega}}</p>
+          <p hidden>{{serviceNascosti.uuid}}</p>
+        </div>
+
+        <div class="col-12 row col-sm-5">
+          <button layout-align="start center" style="margin:5px; height:38px;" (click)="openSalvaDelegaDialog()" class="btn btn-primary blue-button">Salva</button>
+        </div>
+
+
+      </div>
+
+      <div *ngIf="!attivaAdulto">
+        <div class="row mt-4 mx-3" style="border-bottom: 1px solid lightgrey" *ngFor="let service of serviceList">
+          <div class=" col-12 row col-sm-2" style="user-select: none">
+            <span class="col-12 material-switch" style="color: grey">
+
+                <span *ngIf="service.prevStato === 'ATTIVA' && service.checkboxState">
+                  <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 40px; color: green"></i><br>
+                  attiva<br>
+                </span>
+
+                <span *ngIf="service.prevStato === 'RIFIUTATA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                  rinuncia
+                </span>
+
+                <span *ngIf="service.prevStato === 'REVOCATA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                  revoca
+                </span>
+
+                <span *ngIf="service.prevStato === 'DAATTIVARE' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px"></i><br>
+                  da attivare
+                </span>
+
+                <span style="color: grey" *ngIf="service.prevStato === 'SCADUTA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: red"></i><br>
+                scaduta il<br>
+                  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+                </span>
+
+                <span style="color: grey" *ngIf="service.prevStato === 'IN_SCADENZA' && service.checkboxState">
+                  <i class="fa fa-times-circle" aria-hidden="true" style="font-size: 40px; color: orange"></i><br>
+                in scadenza il<br>
+                  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+                </span>
+          </span>
+        </div>
+
+          <div class="col-12 row col-sm-5">
+            <span class="col-12"
+                  [ngStyle]="{'font-weight':service.checkboxState ? '500' : 'normal' }">{{service.description_servizio}}</span>
+                  <p hidden>{{service.codice_servizio}}</p>
+          </div>
+
+          <div class="col-12 row col-sm-5">
+            <span class="col-12">
+              <span style="color: #0066FF; font-weight: 500" *ngIf="service.checkboxState">
+                Valida dal {{service.data_inizio_delega | date: 'dd.MM.yyyy'}}
+                al  {{service.data_fine_delega | date: 'dd.MM.yyyy'}}
+              </span>
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+

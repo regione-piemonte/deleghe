@@ -1,0 +1,31 @@
+<div class="scelta-row">
+  <div class="scelta-row-item">
+    <a style="text-decoration: none" [routerLink]="['/']">
+      <i class="fa fa-arrow-left"></i>
+      Home</a>
+  </div>
+  <div class="scelta-row-item">
+    <label class="scelta-title">Nuova delega</label>
+  </div>
+  <div class="scelta-item">
+    <label class="scelta-title">Che tipo di delega vuoi richiedere?</label>
+
+  </div>
+
+
+
+  <div class="scelta-button-row">
+    <button class="scelta-button button-shadow" [routerLink]="['/ricerca', 'delegante']">
+      <a class="scelta-button-title">Adulto/adulto</a>
+    </button>
+    <button class="scelta-button button-shadow" [routerLink]="['/ricerca', 'genitore']">
+      <a class="scelta-button-title">Dichiarazione<br/> Responsabilità Genitoriale</a>
+    </button>
+    <button class="scelta-button button-shadow" [routerLink]="['/ricerca', 'tutore']">
+      <a class="scelta-button-title">Tutelati</a>
+      <label style="font-size: 14px">Tutela, Curatela e
+        Amministrazione di sostegno</label>
+    </button>
+  </div>
+
+</div>

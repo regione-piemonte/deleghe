@@ -1,0 +1,145 @@
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.panel{
+  background-color: white;
+  border: 1px solid black;
+  border-radius: inherit;
+  -moz-box-shadow: 3px 5px 6px #acacac;
+  -webkit-box-shadow: 3px 5px 6px #acacac;
+  box-shadow: 3px 5px 6px #acacac;
+  margin-bottom: 25px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.blue-button, .white-button {
+  width: 100%;
+  font-size: 20px;
+}
+
+.blue-button {
+  color: white;
+  background-color: #026BB1;
+  border: 2px solid #026BB1;
+}
+
+.blue-button:hover {
+  color: #026BB1 !important;
+  background-color: white !important;
+  border: 2px solid #026BB1;
+}
+
+.blue-button:disabled {
+  color: grey !important;
+  background-color: lightgrey !important;
+  border: 2px solid lightgrey;
+  cursor: default;
+}
+
+.white-button {
+  color: #026BB1 !important;
+  background-color: white !important;
+  border: 2px solid #026BB1;
+}
+
+.white-button:hover {
+  color: white !important;
+  background-color: #026BB1 !important;
+}
+
+.warn {
+  background-color: #faf6db;
+  height: 50px;
+  border-left: 15px solid #faec7d;
+}
+
+.warn-label {
+  font-size: 14px;
+  padding: 15px;
+}
+
+.icon {
+  font-size: 30px;
+  padding: 10px;
+}
+
+.close {
+  margin: 1%;
+  width: 15px;
+  height: 15px;
+  background-size: cover;
+  float: right;
+}
+
+.popup-font {
+  font-size: 1rem;
+}
+
+.popup-label {
+  color: #026BB1;
+  text-decoration-line: underline;
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 575px) {
+  img {
+    margin-bottom: 15px;
+  }
+
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .warn {
+    height: 100px;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 965px) {
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .warn {
+    height: 70px;
+  }
+
+  .icon {
+    padding: 20px 0 0 !important;
+  }
+}
+
+@media screen and (max-width: 825px) {
+  .blue-button, .white-button {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .warn {
+    height: 90px;
+  }
+
+  .warn-label {
+    padding: 15px 0 0 0;
+  }
+}
+
+@media (max-width: 442px) {
+  .warn-label {
+    font-size: 12px;
+    padding: 0 !important;
+  }
+}

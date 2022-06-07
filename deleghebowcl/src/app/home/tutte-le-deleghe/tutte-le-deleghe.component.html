@@ -1,0 +1,131 @@
+<div style="display: none">
+  Deployment test
+</div>
+
+<div *ngIf="isFilterShown()">
+  <div class="row col-12 mt-4 py-4" style="background-color: rgba(242, 242, 242, 1)" >
+    <div class="form-group col-12 pl-0 ml-0">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="GENITORE" [(ngModel)]="ruolo">
+        <label class="form-check-label" for="inlineRadio1">Delegato</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="FIGLIO" [(ngModel)]="ruolo">
+        <label class="form-check-label" for="inlineRadio2">Delegante</label>
+      </div>
+
+    </div>
+    <div class="form-group col-12 pl-0 ml-0" style="max-width: 500px">
+      <label for="codiceFiscale" style="font-size: 20px">Codice fiscale</label>
+      <input [(ngModel)]="codiceFiscale"  class="form-control" id="codiceFiscale">
+      <small *ngIf="!fiscalCodeFormatOk && codiceFiscale" class="text-danger">Errato formato del codice fiscale</small>
+    </div>
+  </div>
+</div>
+
+<button (click)="showTable()" style="width: 200px" class="btn btn-primary mt-3">Cerca</button>
+<small id="emailHelp" class="form-text text-muted mb-4">Ai sensi del GDPR i tuoi accessi verranno tracciati e comunicati al cittadino previa sua richiesta</small>
+
+<p-progressBar mode="indeterminate" *ngIf="isTableLoading"></p-progressBar>
+<div *ngIf="tableData && !isTableLoading" class="mt-4">
+  <div>
+    <h2 class="color-blue">
+      Hai cercato: Tutte le deleghe
+    </h2>
+    <label tabindex="0" class="annulla-ricerca">
+      <a style="cursor: pointer" role="button" tabindex="0" class="stretched-link" (click)="hideTable()">Annulla
+        ricerca X</a>
+    </label>
+    <br>
+    <div class="row justify-content-between">
+      <label class="table-upper-text-second-row">
+        Risultati: {{tableData.length}}
+      </label>
+
+    </div>
+  </div>
+
+  <p-treeTable [value]="tableData" [paginator]="true" [rows]="10" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" sortField="nPratica">
+    <ng-template pTemplate="header">
+      <tr>
+        <th [ttSortableColumn]="'nPratica'" style="width: 130px;">N.Pratica
+          <p-treeTableSortIcon [field]="'nPratica'"></p-treeTableSortIcon>
+        </th>
+
+        <th [ttSortableColumn]="'citizen.nome'" style="width: 210px">Delegato
+          <p-treeTableSortIcon [field]="'citizen.nome'"></p-treeTableSortIcon>
+        </th>
+        <th [ttSortableColumn]="'compilatore'">Compilatore
+          <p-treeTableSortIcon [field]="'compilatore'"></p-treeTableSortIcon>
+        </th>
+
+        <th [ttSortableColumn]="'tipo_delega'">Tipologia delega
+          <p-treeTableSortIcon [field]="'tipo_delega'"></p-treeTableSortIcon>
+        </th>
+        <th [ttSortableColumn]="'stampaDelega'">Stampa delega
+          <p-treeTableSortIcon [field]="'stampaDelega'"></p-treeTableSortIcon>
+        </th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr style="text-align: center" [ngClass]="{'grey-row': rowNode.level == 1}">
+        <td style="align-items: center;">
+          <div style="display:flex; justify-content: center">
+            <span  *ngIf="rowNode.level == 1" style="justify-content: center">{{rowData.nPratica?rowData.nPratica: "_"}} </span>
+            <p-treeTableToggler [rowNode]="rowNode" *ngIf="rowNode.level == 0"></p-treeTableToggler>
+          </div>
+        </td>
+
+        <td style="height: 60px;">
+          <span *ngIf="!rowData.uuid"
+             style="position:relative;display: flex; justify-content: space-between; align-items: center;">
+            <img class="block-image" *ngIf="rowData.blocca_delega" src="assets/img/user/u511.png">
+            <img class="avatar"
+                 src="assets/img/user/iconauomo.png"
+                 *ngIf="rowData.citizen.sesso === 'M' && (rowNode.level == 0)">
+
+            <img class="avatar"
+                 src="assets/img/user/iconadonna.png"
+                 *ngIf="rowData.citizen.sesso === 'F' && (rowNode.level == 0)">
+
+            <img class="avatar" src="assets/img/user/boychild.png"
+                 *ngIf="rowData.citizen.sesso === 'M' && rowNode.level == 1">
+
+            <img class="avatar" src="assets/img/user/girlchild.png"
+                 *ngIf="rowData.citizen.sesso === 'F' && rowNode.level == 1">
+            <span class="nome-cognome">{{rowData.citizen.nome +" "+rowData.citizen.cognome}}<br>{{rowData.citizen.codice_fiscale}}</span>
+          </span>
+          <a *ngIf="rowData.uuid" [routerLink]="['tutte-pratiche', rowData.uuid, provenienza]"
+             style="position:relative; display: flex; justify-content: space-between; align-items: center;">
+            <img class="block-image" *ngIf="rowData.blocca_delega" src="assets/img/user/u511.png">
+            <img class="avatar"
+                 src="assets/img/user/iconauomo.png"
+                 *ngIf="rowData.citizen.sesso === 'M' && (rowNode.level == 0)">
+
+            <img class="avatar"
+                 src="assets/img/user/iconadonna.png"
+                 *ngIf="rowData.citizen.sesso === 'F' && (rowNode.level == 0)">
+
+            <img class="avatar" src="assets/img/user/boychild.png"
+                 *ngIf="rowData.citizen.sesso === 'M' && rowNode.level == 1">
+
+            <img class="avatar" src="assets/img/user/girlchild.png"
+                 *ngIf="rowData.citizen.sesso === 'F' && rowNode.level == 1">
+            <span class="nome-cognome">{{rowData.citizen.nome +" "+rowData.citizen.cognome}}<br>{{rowData.citizen.codice_fiscale}}</span>
+          </a>
+        </td>
+        <td style="align-items: center;">{{rowData.full_compilatore_cf? rowData.full_compilatore_cf: "_"}}</td>
+
+        <td style="align-items: center;">{{rowData.tipoDelega? getTipoText(rowData.tipoDelega): "_"}}</td>
+        <td style="align-items: center;">
+          <button class="white-button btn-outline-primary" (click)="print(rowData.uuid, rowData.nPratica)"
+          *ngIf="rowData.delegante">
+            Stampa
+          </button>
+        </td>
+
+      </tr>
+    </ng-template>
+  </p-treeTable>
+</div>

@@ -1,0 +1,178 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen">
+  <p-progressSpinner class="my-5"></p-progressSpinner>
+</div>
+
+<div class="scelta-row" *ngIf="citizen">
+  <div class="scelta-row-item">
+    <a style="text-decoration: none" [routerLink]="['../tutelato']">
+      <i class="fa fa-arrow-left"></i>
+      Scelta tutelato</a>
+  </div>
+
+
+
+<br><hr>
+  <h3 class="my-4">Nuova delega - Dichiarazione di Tutela: tutore {{citizen.nome}} {{citizen.cognome}}</h3>
+
+  <nuova-delega-stage [stageNames]="['Tutelato',  'Riepilogo']"
+                      [numberOfActiveStage]="2"></nuova-delega-stage>
+
+
+  <ng-container *ngIf="citizens">
+    <div class="panel" *ngFor="let citizen of citizens; let i = index">
+
+<br><hr>
+      <form action="#">
+        <h4 class="m-3 mt-1" *ngIf="i === 0">Dati del tutore</h4>
+        <h4 class="m-3 mt-1" *ngIf="i !== 0">Dati del soggetto tutelato</h4>
+        <div class="panel-container">
+          <img *ngIf="citizen.sesso === 'F' && i === 0"
+               src="assets/img/user/iconadonna.png"/>
+
+          <img *ngIf="citizen.sesso === 'M' && i === 0"
+               src="assets/img/user/iconauomo.png"/>
+
+          <img *ngIf="citizen.sesso === 'F' && i !== 0"
+               src="assets/img/user/girlchild.png"/>
+
+          <img *ngIf="citizen.sesso === 'M' && i !== 0"
+               src="assets/img/user/boychild.png"/>
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Nome</strong>
+                <span class="col-12">{{citizen.nome}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Cognome</strong>
+                <span class="col-12">{{citizen.cognome}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data di nascita</strong>
+                <div *ngIf = "i === 0; then thenTutoredn else elseTutelatodn" ></div>
+                <ng-template #thenTutoredn>
+                  <span class="col-12">{{citizen.data_nascita | date: 'dd/MM/yyyy'}}</span>
+                </ng-template>
+                <ng-template #elseTutelatodn>
+                  <span class="col-12">{{citizen.data_nascita}}</span>
+                </ng-template>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Comune di nascita</strong>
+                <div *ngIf = "i === 0; then thenTutorecn else elseTutelatocn" ></div>
+                <ng-template #thenTutorecn>
+                  <span class="col-12">{{citizen.comune_nascita}}</span>
+                </ng-template>
+                <ng-template #elseTutelatocn>
+                  <span class="col-12">{{citizen.cumune_nascita}}</span>
+                </ng-template>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Sesso</strong>
+                <span class="col-12">{{citizen.sesso}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Codice fiscale</strong>
+                <span class="col-12">{{citizen.codice_fiscale}}</span>
+              </div>
+            </div>
+
+
+             <div class="mt-4"  *ngIf="citizen.numeroDocumento">
+              <div class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Tipo documento</strong>
+                  <span class="col-12">{{citizen.tipoDocumento}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Numero documento</strong>
+                  <span class="col-12">{{citizen.numeroDocumento}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Rilasciato da</strong>
+                  <span class="col-12">{{citizen.rilasciatoDa}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Data rilascio</strong>
+                  <span class="col-12">{{citizen.dataRilascio  | date: 'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Data scadenza</strong>
+                  <span class="col-12">{{citizen.dataScadenza | date: 'dd.MM.yyyy'}}</span>
+                </div>
+              </div>
+            </div>
+
+
+              <h4 *ngIf="i !== 0" class="m-3 mt-1">Atto formale di nomina</h4><br/>
+              <div *ngIf="i !== 0" class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Numero documento</strong>
+                  <span class="col-12">{{newDichiarazione.numeroDocumento}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Autorità rilasciante</strong>
+                  <span class="col-12">{{newDichiarazione.autorita}}</span>
+                </div>
+              </div>
+              <div *ngIf="i !== 0" class="row">
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Data inizio tutela</strong>
+                  <span class="col-12">{{newDichiarazione.dataInizio}}</span>
+                </div>
+                <div class="col-12 row col-sm-6">
+                  <strong class="col-12">Data fine tutela</strong>
+                  <span class="col-12">{{newDichiarazione.dataFine}}</span>
+                </div>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="panel">
+      <form action="#">
+        <h4 class="m-3 mt-1">Documenti allegati</h4>
+         <div class="row justify-content-between">
+          <div style="margin-right: 20px;">
+            <label style="user-select: none; margin-left: 20px;" for="agreement">Visualizza e stampa informativa privacy:</label>
+              <a href="{{pdfInformativa}}" target="_blank">
+                <img style="width: 70px; margin-left: 20px;" id="u28_img" class="img " src="assets/img/user/u28.png">
+              </a>
+          </div>
+         </div>
+      </form>
+    </div>
+    <div class="panel">
+      <form action="#">
+        <h4 class="m-3 mt-1">Nota per operatore</h4>
+         <div class="row justify-content-between">
+          <div style="margin-left: 20px;">
+            <input [(ngModel)]="agreementPushed" name="agreementPushed" type="checkbox" id="agreement"/>
+            <label style="user-select: none" for="agreement">Io {{nomeOperatore}} {{cognomeOperatore}}, dichiaro di aver verificato l'identità del cittadino attraverso l'esibizione di un documento d'identità e della tessera sanitaria.
+              </label>
+          </div>
+         </div>
+      </form>
+    </div>
+
+
+    <div class="row justify-content-between">
+      <button [routerLink]="['../tutelato']"
+              class="btn btn-primary white-button col-8 col-md-3 col-lg-3">Indietro
+      </button>
+      <button [disabled]="!agreementPushed" (click)="getFeedBack()" class="btn btn-primary blue-button col-8 col-md-3 col-lg-3">Continua
+      </button>
+    </div>
+  </ng-container>
+</div>
+

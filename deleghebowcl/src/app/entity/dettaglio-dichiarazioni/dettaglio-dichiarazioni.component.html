@@ -1,0 +1,239 @@
+<div class="row my-5 justify-content-center" *ngIf="!dichiarazione">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<div class="scelta-row" *ngIf="dichiarazione">
+  <div class="scelta-row-item">
+    <a style="text-decoration: none" [routerLink]="['/']">
+      <i class="fa fa-arrow-left"></i>
+      Home</a>
+  </div>
+
+  <div class="my-3">
+    <p-messages [(value)]="msgs"></p-messages>
+  </div>
+
+  <h3 class="my-4">
+    Dettaglio delega ({{dichiarazione.stato.descrizione}})
+  </h3>
+
+
+  <ng-container *ngIf="!loading">
+    <div class="panel" *ngFor="let citizen of citizens">
+      <form action="#">
+
+        <h4 class="m-3 mt-1" *ngIf="citizen.order == 0">Dati genitore dichiarante</h4>
+        <div class="panel-container" *ngIf="citizen.order == 0">
+          <img *ngIf="citizen.citizen.sesso === 'F'"
+               src="assets/img/user/iconadonna.png"/>
+
+          <img *ngIf="citizen.citizen.sesso === 'M'"
+               src="assets/img/user/iconauomo.png"/>
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Nome</strong>
+                <span class="col-12">{{citizen.citizen.nome}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Cognome</strong>
+                <span class="col-12">{{citizen.citizen.cognome}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data di nascita</strong>
+                <span class="col-12">{{citizen.citizen.data_nascita | date: 'dd.MM.yyyy'}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Comune di nascita</strong>
+                <span class="col-12">{{citizen.citizen.comune_nascita}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Sesso</strong>
+                <span class="col-12">{{citizen.citizen.sesso}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Codice fiscale</strong>
+                <span class="col-12">{{citizen.citizen.codice_fiscale}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <h4 class="m-3 mt-1" *ngIf="citizen.order == 1">Dati altro genitore</h4>
+        <div class="panel-container" *ngIf="citizen.order == 1">
+          <img *ngIf="citizen.citizen.sesso === 'F'"
+               src="assets/img/user/iconadonna.png"/>
+
+          <img *ngIf="citizen.citizen.sesso === 'M'"
+               src="assets/img/user/iconauomo.png"/>
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Nome</strong>
+                <span class="col-12">{{citizen.citizen.nome}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Cognome</strong>
+                <span class="col-12">{{citizen.citizen.cognome}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data di nascita</strong>
+                <span class="col-12">{{citizen.citizen.data_nascita | date: 'dd.MM.yyyy'}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Comune di nascita</strong>
+                <span class="col-12">{{citizen.citizen.comune_nascita}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Sesso</strong>
+                <span class="col-12">{{citizen.citizen.sesso}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Codice fiscale</strong>
+                <span class="col-12">{{citizen.citizen.codice_fiscale}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4 class="m-3 mt-1" *ngIf="citizen.order == 2">Dati del minore</h4>
+        <div class="panel-container" *ngIf="citizen.order == 2">
+          <img *ngIf="citizen.citizen.sesso === 'F'"
+               src="assets/img/user/girlchild.png"/>
+
+          <img *ngIf="citizen.citizen.sesso === 'M'"
+               src="assets/img/user/boychild.png"/>
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Nome</strong>
+                <span class="col-12">{{citizen.citizen.nome}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Cognome</strong>
+                <span class="col-12">{{citizen.citizen.cognome}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data di nascita</strong>
+                <span class="col-12">{{citizen.citizen.data_nascita | date: 'dd.MM.yyyy'}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Comune di nascita</strong>
+                <span class="col-12">{{citizen.citizen.comune_nascita}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Sesso</strong>
+                <span class="col-12">{{citizen.citizen.sesso}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Codice fiscale</strong>
+                <span class="col-12">{{citizen.citizen.codice_fiscale}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel" *ngIf="attoFormale" >
+      <form action="#">
+        <h4 class="m-3 mt-1">Atto formale di nomina</h4>
+        <div class="row justify-content-between">
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Numero documento</strong>
+                <span class="col-12">{{numeroDocumento}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Autorità rilasciante</strong>
+                <span class="col-12">{{autorita}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data inizio tutela</strong>
+                <span class="col-12">{{dataInizioTutela | date: 'dd.MM.yyyy'}}</span>
+              </div>
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Data fine tutela</strong>
+                <span class="col-12">{{dataFineTutela | date: 'dd.MM.yyyy'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="panel" *ngIf="!attoFormale" >
+      <form action="#">
+        <h4 class="m-3 mt-1">Atto formale di nomina</h4>
+        <div class="row justify-content-between">
+          <div style="width: 100%;">
+            <div class="row" style="width: 100%;">
+              <div class="col-12 row col-sm-6">
+                <strong class="col-12">Documento non presente</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel">
+      <form action="#">
+        <h4 class="m-3 mt-1">Documenti allegati</h4>
+         <div class="row justify-content-between">
+          <div style="margin-right: 20px;">
+            <label style="user-select: none; margin-left: 20px;" for="agreement">Visualizza e stampa informativa privacy:</label>
+              <a href="{{pdfInformativa}}" target="_blank">
+                <img style="width: 70px; margin-left: 20px;" id="u28_img" class="img " src="assets/img/user/u28.png">
+              </a>
+          </div>
+          <div style="margin-right: 20px;" *ngIf="documentoPresente">
+            <label style="user-select: none" for="agreement">Scarica stato di famiglia:</label>
+                <img style="width: 70px; margin-left: 20px;" id="u28_img" class="img " src="assets/img/user/u28.png" (click)="showPdf()">
+          </div>
+         </div>
+      </form>
+    </div>
+    <div class="panel">
+      <form action="#">
+        <h4 class="m-3 mt-1">Nota per operatore</h4>
+         <div class="row justify-content-between">
+          <div style="margin-left: 20px;">
+            <input [(ngModel)]="agreementPushed" name="agreementPushed" type="checkbox" id="agreement"/>
+            <label style="user-select: none" for="agreement">Io {{nomeOperatore}} {{cognomeOperatore}}, dichiaro di aver verificato l'identità del cittadino attraverso l'esibizione di un documento d'identità e della tessera sanitaria.
+              </label>
+          </div>
+         </div>
+      </form>
+    </div>
+
+
+
+    <div class="row justify-content-between">
+      <div class="row justify-content-between red-button-group mb-0">
+        <button *ngIf="dichiarazione.stato.codice !== 'RIFIUTA' && dichiarazione.stato.codice !== 'BLOCCA' && dichiarazione.stato.codice !== 'ATTIVA' && dichiarazione.stato.codice !== 'REVOCATA'" [disabled]="!agreementPushed" (click)="openRifiutaDialog()" class="btn btn-danger red-button">Rifiuta</button>
+        <h4 class="m-3 mt-1" *ngIf="dichiarazione.stato.codice === 'RIFIUTA'">Dichiarazione Rifiutata</h4>
+        <button *ngIf="dichiarazione.stato.codice !== 'RIFIUTA' && dichiarazione.stato.codice !== 'BLOCCA' && dichiarazione.stato.codice !== 'ATTIVA' && dichiarazione.stato.codice !== 'REVOCATA'" [disabled]="!agreementPushed" (click)="openBloccaDialog()" class="btn btn-danger red-button">Blocca</button>
+        <h4 class="m-3 mt-1" *ngIf="dichiarazione.stato.codice === 'BLOCCA' || dichiarazione.stato.codice === 'REVOCATA'">Dichiarazione Bloccata</h4>
+      </div>
+
+      <button *ngIf="dichiarazione.stato.codice !== 'RIFIUTA' && dichiarazione.stato.codice !== 'BLOCCA' && dichiarazione.stato.codice !== 'ATTIVA'  && dichiarazione.stato.codice !== 'REVOCATA'" [disabled]="!agreementPushed" (click)="openConfermaDialog()" class="btn btn-primary blue-button">Conferma</button>
+      <button *ngIf="dichiarazione.stato.codice === 'ATTIVA'" [disabled]="!agreementPushed" (click)="openRevocaDialog()" class="btn btn-primary blue-button">Revoca</button>
+
+    </div>
+  </ng-container>
+</div>
+

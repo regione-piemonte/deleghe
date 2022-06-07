@@ -1,0 +1,108 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<div *ngIf="citizen">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['/ricerca', 'delegante']">
+      <i class="fa fa-arrow-left"></i>
+      Ricerca delegante</a>
+  </div>
+
+  <h3 class="my-4">
+    Nuova delega: delegante {{citizen.cognome + " " + citizen.nome}}
+  </h3>
+
+  <nuova-delega-stage [stageNames]="['Delegato', 'Scelta servizi', 'Riepilogo']" [numberOfActiveStage]="1"></nuova-delega-stage>
+
+
+  <div class="panel pb-5">
+    <div class="row mt-3 ml-3">
+      <strong style="font-size: 25px">Dati del delegato</strong>
+    </div>
+
+    <form class="mx-4">
+     <div class="form-row mt-4">
+      <div class="form-group col-md-6">
+        <label for="Nome">Nome</label>
+        <input type="text" class="form-control" name="nome" [(ngModel)]="newDelega.nome" id="Nome">
+      </div>
+        <div class="form-group col-md-6">
+          <label for="Cognome">Cognome</label>
+          <input type="text" name="cognome" [(ngModel)]="newDelega.cognome" class="form-control" id="Cognome">
+        </div>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-3">
+          <label for="DataDiNascita">Data di nascita</label>
+          <div class="d-md-block">
+            <div class="input-group input-append date"
+                 data-text-format="dd/MM/yyyy" data-provide="datepicker">
+              <span class="input-group-addon add-on"></span>
+              <input type="text" class="form-control" name="datanasBen"
+                     id="DataDiNascita" #nascita placeholder="gg/mm/aaaa"
+                     style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3"></div>
+
+        <div class="form-group col-md-6"  *ngIf="isValid; else comuniCaricati">
+          <label for="Comune">Comune di nascita o Stato di nascita
+            <span style="color: grey; font-size: 16px">(se straniero)</span>
+          </label>
+          <input type="text" name="comune" [(ngModel)]="newDelega.comuneDiNascita" class="form-control" id="Comune" (input)="onSearchChange($event.target.value)">
+        </div>
+
+        <ng-template #comuniCaricati>
+          <div class="form-group col-md-6">
+            <label for="Comune">Comune di nascita o Stato di nascita
+              <span style="color: grey; font-size: 16px">(se straniero)</span>
+            </label>
+            <select [(ngModel)]="newDelega.comuneDiNascita" class="form-control" name="comune" id="Comune" >
+              <option *ngFor="let elencoCom of elencoComuniCaricati" value="{{elencoCom.desc}}">{{elencoCom.desc}}</option>
+            </select>
+            <button class="btn btn-primary white-button" (click)="annulla()" layout-align="end center">Annulla Ricerca</button>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="form-row mt-4">
+        <div class="form-group col-md-3">
+          <label>Sesso</label><br>
+          <input type="radio" name="Sesso" [(ngModel)]="newDelega.sesso" value="M" id="M" class="mr-2"> <label for="M"> maschio</label>
+          <input type="radio" name="Sesso" [(ngModel)]="newDelega.sesso" value="F" id="F" class="ml-5 mr-2"> <label for="F"> femmina</label>
+        </div>
+
+        <div class="col-md-3"></div>
+
+        <div class="form-group col-md-6">
+          <label for="CodiceFiscale">Codice fiscale</label>
+          <input type="text" [(ngModel)]="newDelega.codiceFiscale" class="form-control" name="codiceFiscale" id="CodiceFiscale">
+          <small *ngIf="!codiceFiscaleFormatOk && newDelega.codiceFiscale" class="text-danger">Errato formato del codice fiscale</small>
+        </div>
+      </div>
+      <div class="row justify-content-between mt-4 mx-3">
+        <div class="col-4" >
+          <button class="btn btn-primary white-button" (click)="pulisciCampi()" >Pulisci Campi</button>
+        </div>
+        <div class="col-4" ></div>
+      </div>
+    </form>
+  </div>
+
+  <strong class="text-danger" style="font-size: 22px" *ngIf="newDelega.delegaTestFailed">Cittadino non trovato</strong>
+  <strong class="text-danger" style="font-size: 22px" *ngIf="newDelega.legameTestFailed">Hai già delegato questo cittadino. Puoi solo aggiornarlo. Clicca su Indietro.</strong>
+
+  <div class="row justify-content-between mt-4 mx-3">
+    <div class="col-4" >
+      <button class="btn btn-primary white-button" [routerLink]="['/ricerca', 'delegante', 'nominativo-singolo', fiscalCode]">Indietro</button>
+    </div>
+    <div class="col-4">
+      <button [disabled]="!canProceed" class="btn btn-primary blue-button" (click)="goToServices()">Continua</button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,5 @@
+<div *ngFor="let alert of alerts" class="{{ cssClass(alert) }} alert-dismissable m-2 ion-alert"
+     data-auto-dismiss="1000" role="alert" tabindex="99999" #lastElement appAutofocus>
+  {{alert.message}}
+  <a class="close" (click)="removeAlert(alert);">&times;</a>
+</div>

@@ -1,0 +1,88 @@
+.panel {
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: initial;
+}
+
+.panel-inside {
+  background-color: #F2F2F2;
+  border-color: black;
+  border-width: 1px;
+  border-radius: initial;
+  padding-bottom: 5%;
+}
+
+.modal-title {
+  font-size: 18px;
+  color: #0066FF;
+}
+
+.close {
+  margin: 1%;
+  width: 30px;
+  height: 30px;
+  background-image: url("../../../../assets/img/user/u20.png");
+  background-size: cover;
+}
+
+.label-title, .label-inside {
+  font-weight: normal;
+  padding-left: 3%;
+}
+
+.label-title {
+  margin-top: 3%;
+  font-size: 24px;
+}
+
+.label-inside {
+  font-size: 20px;
+}
+
+.motivazione-title {
+  font-size: 18px;
+  color: #0066FF;
+  padding-left: 3%;
+  padding-top: 1%;
+}
+
+.motivazione-label {
+  margin-left: 3%;
+  width: 70%;
+}
+
+.motivazione-select {
+  width: 60%;
+}
+
+.motivazione-area {
+  margin-left: 15%;
+  margin-top: 2%;
+  width: 70%;
+  height: 100px;
+  border: solid lightgray thin;
+}
+
+.buttons {
+  margin-top: 5%;
+}
+
+.btn-cancel, .btn-ok {
+  width: 20%;
+  font-weight: bold;
+}
+
+.btn-cancel {
+  background-color: white;
+  border-color: black;
+  margin-left: 20%;
+}
+
+.btn-ok, .btn-ok:hover {
+  background-color: #199ED8;
+  border-color: #199ED8;
+  color: white;
+  margin-right: 20%;
+  float: right;
+}

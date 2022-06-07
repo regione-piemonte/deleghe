@@ -1,0 +1,65 @@
+.scelta-row {
+  padding-left: 10%;
+  padding-top: 20px;
+}
+
+.celta-row-item {
+  margin: 25px 0 25px 0;
+}
+
+.scelta-title {
+  font-family: "Open Sans", "Helvetica Neue", sans-serifcursive;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.scelta-button-title {
+  color: #49a9de !important;
+  font-family: "Open Sans", "Helvetica Neue", sans-serifcursive;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.scelta-text, .scelta-title {
+  padding-right: 40%;
+}
+
+.scelta-text {
+  font-size: 18px;
+}
+
+.scelta-item {
+  padding-top: 5px;
+  display: inline-block;
+  margin: 5px;
+}
+
+.scelta-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.button-shadow {
+  -moz-box-shadow: 3px 5px 6px #acacac;
+  -webkit-box-shadow: 3px 5px 6px #acacac;
+  box-shadow: 3px 5px 6px #acacac;
+}
+
+.scelta-button {
+  margin-top: 50px;
+  height: 120px;
+  width: 280px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+}
+
+.scelta-button-row {
+  display: flex;
+  justify-content: space-around;
+  padding-right: 25%;
+  padding-left: 10%;
+}
+

@@ -1,0 +1,163 @@
+<div class="row my-5 justify-content-center" *ngIf="!citizen">
+  <p-progressSpinner class="my-5" ></p-progressSpinner>
+</div>
+
+<ng-container *ngIf="citizen && newDelega">
+  <div>
+    <a style="text-decoration: none" [routerLink]="['../servizi']">
+      <i class="fa fa-arrow-left"></i>
+      Scelta servizi</a>
+  </div>
+
+  <h3 class="my-4">
+    Nuova delega: delegante {{citizen.nome + " " + citizen.cognome}}
+  </h3>
+
+  <nuova-delega-stage [stageNames]="['Delegato', 'Scelta servizi', 'Riepilogo']" [numberOfActiveStage]="3"></nuova-delega-stage>
+
+  <h4 class="my-4">
+    Riepilogo dati
+  </h4>
+
+
+  <div class="panel">
+    <a class="pull-right mr-3" style="text-decoration: none" [routerLink]="['../']">
+
+    </a>
+    <form action="#">
+      <h4 class="m-3 mt-1">Dati del delegante</h4>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Nome</strong>
+          <span class="col-12">{{citizen.nome}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Cognome</strong>
+          <span class="col-12">{{citizen.cognome}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Data di nascita</strong>
+          <span class="col-12">{{citizen.data_nascita | date: 'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Codice fiscale</strong>
+          <span class="col-12">{{citizen.codice_fiscale}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Comune di nascita</strong>
+          <span class="col-12">{{citizen.comune_nascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Sesso</strong>
+          <span class="col-12">{{citizen.sesso === 'M'? 'Maschio': "Femmina"}}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <a class="pull-right mr-3" style="text-decoration: none" [routerLink]="['../servizi']">
+
+    </a>
+    <form action="#">
+      <h4 class="m-3 mt-1">Dati del delegato</h4>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Nome</strong>
+          <span class="col-12">{{newDelega.nome}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Cognome</strong>
+          <span class="col-12">{{newDelega.cognome}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Data di nascita</strong>
+          <span class="col-12">{{newDelega.dataNascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Codice fiscale</strong>
+          <span class="col-12">{{newDelega.codiceFiscale | uppercase}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Comune di nascita</strong>
+          <span class="col-12">{{newDelega.comuneDiNascita}}</span>
+        </div>
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12">Sesso</strong>
+          <span class="col-12">{{newDelega.sesso === 'M'? 'Maschio': "Femmina"}}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <a class="pull-right mr-3" style="text-decoration: none" [routerLink]="['../']">
+
+    </a>
+    <form action="#">
+      <h4 class="m-3 mt-1">Scelta servizi</h4>
+
+      <div *ngFor="let service of newDelega.services" class="row" style="border-bottom: 1px solid lightgrey">
+        <div class="col-12 row col-sm-6">
+          <strong class="col-12" style="margin: auto">{{service.description_servizio}}</strong>
+        </div>
+        <div class="col-12 row col-sm-6" style="color: #0066FF;">
+          <div class="col-12 row col-sm-6">
+          <span class="col-12" style="color: #0066FF; font-weight: bold">
+            <span style="color: #0066FF; font-weight: normal">Valida dal {{service.data_inizio_delega}} al {{service.data_fine_delega}}</span>
+          </span>
+          <span class="col-12" style="color: #0066FF; font-weight: bold">
+            <span style="color: #0066FF; font-weight: normal">{{service.grado_delega_frase}}</span>
+            <p hidden>{{service.grado_delega}}</p>
+          </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <form action="#">
+      <h4 class="m-3 mt-1">Documenti allegati</h4>
+       <div class="row justify-content-between">
+        <div style="margin-right: 20px;">
+          <label style="user-select: none; margin-left: 20px;" for="agreement">Visualizza e stampa informativa privacy:</label>
+            <a href="{{pdfInformativa}}" target="_blank">
+              <img style="width: 70px; margin-left: 20px;" id="u28_img" class="img " src="assets/img/user/u28.png">
+            </a>
+        </div>
+       </div>
+    </form>
+  </div>
+  <div class="panel">
+    <form action="#">
+      <h4 class="m-3 mt-1">Nota per operatore</h4>
+       <div class="row justify-content-between">
+        <div style="margin-left: 20px;">
+          <input [(ngModel)]="newDelega.agreementPushed" name="agreementPushed" type="checkbox" id="agreement"/>
+          <label style="user-select: none" for="agreement">Io {{nomeOperatore}} {{cognomeOperatore}}, dichiaro di aver verificato l'identità del cittadino attraverso l'esibizione di un documento d'identità e della tessera sanitaria.
+            </label>
+        </div>
+       </div>
+    </form>
+  </div>
+
+  <div class="row justify-content-between mt-4 mx-3">
+    <div class="col-4">
+      <button class="btn btn-primary white-button" [routerLink]="['../servizi']">Indietro</button>
+    </div>
+    <div class="col-4">
+      <button [disabled]="!newDelega.agreementPushed" class="btn btn-primary blue-button" (click)="continua()">Continua</button>
+    </div>
+  </div>
+
+</ng-container>
+

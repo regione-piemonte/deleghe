@@ -1,0 +1,180 @@
+<section>
+  <div class="row" *ngIf="isFilterShown()">
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label for="stato">Stato</label>
+
+
+      <select [(ngModel)]="stato" name="stato" class="form-control" id="stato">
+        <option value="Tutte">Tutte</option>
+        <option *ngFor="let statodich of elencoStatiDichiarazione" value="{{statodich.codice}}">{{statodich.descrizione}}</option>
+      </select>
+
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label for="Tipologia">Tipologia dichiarazione</label>
+      <select [(ngModel)]="tipo" class="form-control" name="tipo" id="Tipologia" >
+        <option value="Tutte">Tutte</option>
+        <option *ngFor="let tipodich of elencoTipiDichiarazione" value="{{tipodich.codice}}">{{tipodich.descrizione}}</option>
+      </select>
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label for="inserimento">Data Inserimento da</label>
+      <div class="d-md-block">
+        <div class="input-group input-append date"
+              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+          <span class="input-group-addon add-on"></span>
+          <input type="text" class="form-control" name="inserimentoDa"
+                 id="inserimentoDa" #inserimentoDa placeholder="gg/mm/aaaa"
+                 style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+        </div>
+      </div>
+
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label for="inserimento">a</label>
+      <div class="d-md-block">
+        <div class="input-group input-append date"
+              data-text-format="dd/MM/yyyy" data-provide="datepicker">
+          <span class="input-group-addon add-on"></span>
+          <input type="text" class="form-control" name="inserimentoA"
+                 id="inserimentoA" #inserimentoA placeholder="gg/mm/aaaa"
+                 style="border-right-width: 1px; padding-right: 12px;background-origin: content-box;background-position-y: center;background-position-x: right;background-repeat: no-repeat;background-image: url(assets/img/user/calendario.png);">
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isFilterShown()">
+    <div class="row col-12 mt-4 py-4" style="background-color: rgba(242, 242, 242, 1)" >
+      <div class="form-group col-12 pl-0 ml-0">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="GENITORE_1" [(ngModel)]="ruolo">
+          <label class="form-check-label" for="inlineRadio1">Genitore / Tutore</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="FIGLIO" [(ngModel)]="ruolo">
+          <label class="form-check-label" for="inlineRadio2">Minore / Tutelato</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Tutti" [(ngModel)]="ruolo">
+          <label class="form-check-label" for="inlineRadio3">Tutti</label>
+        </div>
+      </div>
+      <div class="form-group col-12 pl-0 ml-0" style="max-width: 500px">
+        <label for="codiceFiscale" style="font-size: 20px">Codice fiscale</label>
+        <input [(ngModel)]="codiceFiscale"  class="form-control" id="codiceFiscale">
+        <small *ngIf="!fiscalCodeFormatOk && codiceFiscale" class="text-danger">Errato formato del codice fiscale</small>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="showTable()" style="width: 200px" class="btn btn-primary mt-3">Cerca</button>
+  <small id="emailHelp" class="form-text text-muted mb-4">Ai sensi del GDPR i tuoi accessi verranno tracciati e comunicati al cittadino previa sua richiesta</small>
+
+
+  <p-progressBar mode="indeterminate" *ngIf="isTableLoading"></p-progressBar>
+  <div *ngIf="tableData && !isTableLoading" class="mt-4">
+    <div>
+      <h2 class="color-blue">
+        Lista dichiarazioni
+      </h2>
+      <label tabindex="0" class="annulla-ricerca">
+        <a style="cursor: pointer" role="button" tabindex="0" class="stretched-link" (click)="hideTable()">Annulla
+          ricerca X</a>
+      </label>
+      <br>
+      <div class="row justify-content-between">
+        <label class="table-upper-text-second-row">
+          Risultati: {{tableData.length}}
+        </label>
+
+      </div>
+    </div>
+
+    <p-treeTable [value]="tableData" [paginator]="true" [rows]="10" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" sortField="nPratica">
+      <ng-template pTemplate="header">
+        <tr>
+          <th [ttSortableColumn]="'nPratica'" style="width: 130px;">N.Pratica
+            <p-treeTableSortIcon [field]="'nPratica'"></p-treeTableSortIcon>
+          </th>
+
+          <th [ttSortableColumn]="'delegato.nome'" style="width: 210px">Delegato
+            <p-treeTableSortIcon [field]="'delegato.nome'"></p-treeTableSortIcon>
+          </th>
+          <th [ttSortableColumn]="'compilatore'">Compilatore
+            <p-treeTableSortIcon [field]="'compilatore'"></p-treeTableSortIcon>
+          </th>
+          <th [ttSortableColumn]="'statoPratica'">Stato pratica
+            <p-treeTableSortIcon [field]="'statoPratica'"></p-treeTableSortIcon>
+          </th>
+          <th style="width: 115px" [ttSortableColumn]="'rataRichiesta'">Data richiesta
+            <p-treeTableSortIcon [field]="'rataRichiesta'"></p-treeTableSortIcon>
+          </th>
+          <th [ttSortableColumn]="'tipoDelega'">Tipologia delega
+            <p-treeTableSortIcon [field]="'tipoDelega'"></p-treeTableSortIcon>
+          </th>
+          <th [ttSortableColumn]="'stampaDelega'">Stampa delega
+            <p-treeTableSortIcon [field]="'stampaDelega'"></p-treeTableSortIcon>
+          </th>
+
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr style="text-align: center" [ngClass]="{'grey-row': rowNode.level == 1}">
+          <td style="align-items: center;">
+            <div style="display:flex; justify-content: center">
+              <span style="justify-content: center">{{rowData.nPratica}} </span>
+              <p-treeTableToggler [rowNode]="rowNode" *ngIf="rowNode.level == 0"></p-treeTableToggler>
+            </div>
+          </td>
+
+          <td style="height: 60px;">
+            <a [routerLink]="['dettaglio-dichiarazioni', rowData.uuid, rowData.nPratica]"
+               style="display: flex; justify-content: space-between; align-items: center;">
+              <img style="max-width: 35px; left: -3px; position:relative;"
+                   src="assets/img/user/iconauomo.png"
+                   *ngIf="rowData.delegato.sessoTipo === 'M' && (rowData.ruolo !== 'FIGLIO')">
+
+              <img style="max-width: 35px; left: -3px; position:relative;"
+                   src="assets/img/user/iconadonna.png"
+                   *ngIf="rowData.delegato.sessoTipo === 'F' && (rowData.ruolo !== 'FIGLIO')">
+
+              <img style="max-width: 33px; max-height: 40px" src="assets/img/user/boychild.png"
+                   *ngIf="rowData.delegato.sessoTipo === 'M' && rowData.ruolo === 'FIGLIO'">
+
+              <img style="max-width: 35px; left: -3px; position:relative" src="assets/img/user/girlchild.png"
+                   *ngIf="rowData.delegato.sessoTipo === 'F' && rowData.ruolo === 'FIGLIO'">
+              <span>{{rowData.delegato.nome}}<br>{{rowData.delegato.fiscal}}</span>
+            </a>
+          </td>
+          <td style="align-items: center;">{{rowData.full_compilatore_cf? rowData.full_compilatore_cf: "_"}}</td>
+          <td style="align-items: center;">{{rowData.statoPratica? rowData.statoPratica: "_"}}</td>
+          <td style="align-items: center;">{{rowData.rataRichiesta? (rowData.rataRichiesta | date:'dd.MM.yyyy'): "_"}}</td>
+          <td style="align-items: center;">{{rowData.tipoDelega? rowData.tipoDelega: "_"}}</td>
+          <td style="align-items: center;">
+            <button class="white-button btn-outline-primary" (click)="printPrimaFase(rowData.uuid, rowData.nPratica)"
+            *ngIf="rowData.ruolo === 'FIGLIO' || rowData.ruolo ==='TUTELATO'">
+              Stampa
+            </button>
+          </td>
+
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
+
+</section>
+
+<script>
+    function changeTextCriteriDiRicerca(id) {
+
+        if ($('#' + id).is(':checked')) {
+            $('#' + id + "+span").html('Criteri di ricerca salvati');
+        } else {
+            $('#' + id + "+span").html('Salva criteri di ricerca');
+        }
+    }
+</script>
+
+
