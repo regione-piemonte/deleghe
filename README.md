@@ -12,8 +12,6 @@ Elenco componenti:
 * [DELEGHEBOWEB](delegheboweb)
 * [DELEGHEBOWCL](deleghebowcl)
 
-LINK ai repository:xxx
-
 ## Configurazioni iniziali
 
 Si rimanda ai readme delle singole componenti
