@@ -1,0 +1,102 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - erp
+dependsOn:
+  proprietary:
+    - name: Apache httpd
+      optional: false
+      version: 2.4.53
+      versionMax: ''
+      versionMin: ''
+    - name: PostgreSQL
+      optional: false
+      version: '9.2.7 '
+      versionMax: ''
+      versionMin: ''
+    - name: RedHat JBoss EAP
+      optional: false
+      version: 6.4.5
+      versionMax: ''
+      versionMin: ''
+description:
+  it:
+    features:
+      - |-
+        Le API esposte da DELEGHE facilitano la fruibilità dei servizi sanitari
+        al cittadino.
+    genericName: deleghe
+    localisedName: Servizi per la sanità
+    longDescription: |
+      Il prodotto DELEGHE espone servizi in tecnologia REST rivolti al cittadino
+
+            e riguardanti l'abilitazione tramite delega ai servizi del portale della Regione Piemonte. Tali servizi
+
+            sono fruibili dal cittadino attraverso l'applicazione web SANSOL e l'applicazione web APISAN.
+
+            comprendono tra gli altri: 
+
+                  - attivazione delega per adulto e minori
+
+                  - revoca delega per adulto e minori 
+
+                  - Modifica della validità della delega
+
+                  - ricerca dei delegati e dei deleganti
+
+      Inoltre il  prodotto DELEGHE è formato a un back office usato dagli
+      operatori della Regione Piemonte, i quali
+
+
+      da sportello eseguono le stesse operazioni elencate prima.
+    shortDescription: |-
+      Servizi di delega minore e adulto per usufruire dei servizi del portale
+      della Regione.
+developmentStatus: stable
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - healthcare
+it:
+  conforme:
+    gdpr: true
+    lineeGuidaDesign: true
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: true
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: r_piemon
+landingURL: 'https://github.com/regione-piemonte/deleghe.git'
+legal:
+  authorsFile: |-
+    https://raw.githubusercontent.com/regione-piemonte/deleghe/master/COPYRIGHTS.md
+  license: EUPL-1.2
+  mainCopyrightOwner: Regione PIemonte
+  repoOwner: Regione PIemonte
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - email: maurizio.chiappo@csi.it
+      name: Maurizio Chiappo
+  type: internal
+name: deleghe
+platforms:
+  - web
+releaseDate: '2022-06-07'
+softwareType: standalone/backend
+softwareVersion: 2.1.0
+url: 'https://github.com/regione-piemonte/deleghe.git'
+usedBy:
+  - Regione PIemonte
