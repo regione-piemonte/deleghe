@@ -4,9 +4,9 @@ DELEGHEBE
 
 ## Descrizione del prodotto
 
-Si tratta di API di servizi rivolti al cittadino tra il front end, realizzato tramite il prodotto SANSOL pubblicato in [SANSOL](sansol/README.md);
-un secondo frontend,realizzato tramite il prodotto APISAN pubblicato in [APISAN](apisan/README.md). 
-Esiste Un terzo frontend di Back Office, utilizzato dalgi utenti regionali, realizzato tramite il prodotto DELEGHE pubblicato in [DELEGHEBOWEB](delegheboweb); 
+Si tratta di API di servizi rivolti al cittadino tra il front end, realizzato tramite il prodotto [SANSOL](https://github.com/regione-piemonte/sansol);
+un secondo frontend,realizzato tramite il prodotto [APISAN](https://github.com/regione-piemonte/apisan). 
+Esiste Un terzo frontend di Back Office, utilizzato dalgi utenti regionali, realizzato tramite il prodotto DELEGHE pubblicato in [DELEGHEBOWEB](https://github.com/regione-piemonte/deleghe/tree/master/delegheboweb); 
 
 ## Configurazioni iniziali
 
