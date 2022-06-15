@@ -3,6 +3,7 @@
 # More info at https://github.com/italia/publiccode.yml
 
 publiccodeYmlVersion: '0.2'
+applicationSuite: Regione Piemonte Sistema Informativo Lavoro
 categories:
   - erp
 dependsOn:
@@ -27,6 +28,7 @@ description:
     features:
       - |-
         Le API esposte da DELEGHE facilitano la fruibilità dei servizi sanitari
+
         al cittadino.
     genericName: deleghe
     localisedName: Servizi per la sanità
@@ -48,19 +50,20 @@ description:
                   - ricerca dei delegati e dei deleganti
 
       Inoltre il  prodotto DELEGHE è formato a un back office usato dagli
+
       operatori della Regione Piemonte, i quali
 
 
+
       da sportello eseguono le stesse operazioni elencate prima.
+    screenshots:
+      - |-
+        https://raw.githubusercontent.com/regione-piemonte/deleghe/master/DELEGHE.png
     shortDescription: |-
       Servizi di delega minore e adulto per usufruire dei servizi del portale
+
       della Regione.
 developmentStatus: stable
-intendedAudience:
-  countries:
-    - it
-  scope:
-    - healthcare
 it:
   conforme:
     gdpr: true
@@ -86,6 +89,7 @@ localisation:
   availableLanguages:
     - it
   localisationReady: false
+logo: 'https://raw.githubusercontent.com/regione-piemonte/deleghe/master/DELEGHE.png'
 maintenance:
   contacts:
     - email: maurizio.chiappo@csi.it
@@ -100,3 +104,8 @@ softwareVersion: 2.1.0
 url: 'https://github.com/regione-piemonte/deleghe.git'
 usedBy:
   - Regione PIemonte
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - healthcare
