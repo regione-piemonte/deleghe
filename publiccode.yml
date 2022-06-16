@@ -31,7 +31,7 @@ description:
 
         al cittadino.
     genericName: deleghe
-    localisedName: Servizi per la sanità
+    localisedName: Deleghe
     longDescription: |
       Il prodotto DELEGHE espone servizi in tecnologia REST rivolti al cittadino
 
@@ -41,16 +41,15 @@ description:
 
             comprendono tra gli altri: 
 
-                  - attivazione delega per adulto e minori
+            Attivazione delega per adulto e minori;
 
-                  - revoca delega per adulto e minori 
+            Revoca delega per adulto e minori;
 
-                  - Modifica della validità della delega
+            Modifica della validità della delega;
 
-                  - ricerca dei delegati e dei deleganti
+            Ricerca dei delegati e dei deleganti.
 
-      Inoltre il  prodotto DELEGHE è formato a un back office usato dagli
-
+      Inoltre il  prodotto DELEGHE è formato da un back office usato dagli
       operatori della Regione Piemonte, i quali
 
 
@@ -95,7 +94,7 @@ maintenance:
     - email: maurizio.chiappo@csi.it
       name: Maurizio Chiappo
   type: internal
-name: deleghe
+name: Deleghe
 platforms:
   - web
 releaseDate: '2022-06-07'
@@ -104,8 +103,3 @@ softwareVersion: 2.1.0
 url: 'https://github.com/regione-piemonte/deleghe.git'
 usedBy:
   - Regione PIemonte
-intendedAudience:
-  countries:
-    - it
-  scope:
-    - healthcare
